@@ -1,0 +1,5 @@
+
+/* Storyにフォントが反映されなかったためStorybook専用のcssを作成 */
+body {
+  font-family: "Noto Sans JP", Roboto, sans-serif;
+}

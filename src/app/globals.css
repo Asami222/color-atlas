@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
+/* Storyでサイズ(width,height)が反映されなかったため以下を追加しました。*/
+@source "../src";
+@source "../.storybook";
+/* Next.js default theme
 :root {
   --background: #ffffff;
   --foreground: #171717;
@@ -23,4 +27,127 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+*/
+
+@theme {
+
+  /* @themeにUnknown at ruleという警告が出る場合、.vscode/settings.jsonに{"css.lint.unknownAtRules": "ignore"}を追加してください。
+  但し、ビルドも補完も正常であり、設定が反映されていることを確認してください。Tailwind v4ではこの警告が出ることがあります。
+  以下の設定はFigmaのバリアブルと命名を同じにすると良いです。
+  */
+
+  /* --------------------- color ---------------------*/
+  --color-amber-200: #FFD8A8;
+  --color-amber-600: #F97316;
+  --color-amber-50: #FFFBEB;
+  --color-red-100: #FEE2E2;
+  --color-red-700: #B91C1C;
+  --color-teal-600: #009689;
+  --color-teal-200: #96F7E4;
+  --color-neutral-200: #E5E7EB;
+  --color-neutral-400: #9CA3AF;
+  --color-neutral-500: #6B7280;
+  --color-neutral-950: #111111;
+  --color-white: #FFFFFF;
+  /* base color */
+  --color-primary: #c65300;
+  --color-primary-hover: #FFF68B;
+  --color-primary-hover-dark: #C67400;
+  --color-secondary: var(--color-white);
+  --color-third: var(--color-neutral-950);
+  --color-danger: var(--color-red-700);
+  --color-success: var(--color-teal-600);
+  --color-disabled: var(--color-neutral-200);
+
+  /* text color */
+  --color-text-base: #291100;
+  --color-text-secondary: var(--color-white);
+  --color-text-placeholder: var(--color-neutral-500);
+  --color-text-error: #9F0712;
+  --color-text-disabled: var(--color-neutral-400);
+  --color-text-upload: var(--color-teal-200);
+  
+  /* border*/
+  --color-border-default: var(--color-primary);
+  --color-border-secondary: var(--color-neutral-950);
+  --color-border-disabled: var(--color-neutral-400);
+  --color-border-error: var(--color-red-700);
+
+  /* background */
+  --color-background-default: var(--color-amber-50);
+  --color-background-secondary: var(--color-white);
+  --color-background-third: var(--color-neutral-950);
+  --color-background-disabled: var(--color-neutral-200);
+  --color-background-error: var(--color-red-100);
+
+  /* icon */
+  --icon-default: var(--color-neutral-950);
+  --icon-secondary: var(--color-white); 
+  --icon-disabled: var(--color-neutral-400);
+
+  /* --------------------- font ---------------------*/
+  /* font family */
+  --font-base: var(--font-noto-sans-jp), var(--font-roboto), sans-serif;
+
+  /* font size 
+  --text-extraSmall: '13px';
+  --text-small: '14px';
+  --text-smallMedium: '15px';
+  --text-base: '16px';
+  --text-mediumLarge: '20px';
+  --text-large: '24px';
+  */
+  /* font weight */
+  --font-weight-regular: 400; 
+  --font-weight-medium: 500;
+  --font-weight-bold: 700;
+
+  /* spacing */
+  --leading-none: 1;
+  --leading-tight: 1.25;
+  --leading-default: 1.5;
+  --leading-relaxed: 1.6;
+  --leading-loose: 1.7;
+
+  /* radius */
+  --radius-default: 3px;
+}
+
+body {
+  font-family: var(--font-base);
+  background: var(--color-background-default);
+  color: var(--color-text-base);
+  line-height: var(--leading-default);
+}
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+  height: 100%;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+a {
+  cursor: pointer;
+  text-decoration: none;
+  transition: .25s;
+}
+
+ul {
+  list-style: none;
+}
+
+button, input, textarea {
+  font-family : inherit;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
