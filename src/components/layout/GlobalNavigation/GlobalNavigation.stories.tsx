@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
-import { GlobalNavigation } from "./GlobalNavigation";
+import { GlobalNavigationClient } from "./GlobalNavigationClient";
 
-const meta: Meta<typeof GlobalNavigation> = {
+const meta: Meta<typeof GlobalNavigationClient> = {
   title: "Components/Layout/GlobalNavigation",
-  component: GlobalNavigation,
+  component: GlobalNavigationClient,
   tags: ["autodocs"],
   argTypes: {
     onLogout: { action: "onLogout" },
@@ -12,7 +12,7 @@ const meta: Meta<typeof GlobalNavigation> = {
 
 export default meta;
 
-type Story = StoryObj<typeof GlobalNavigation>;
+type Story = StoryObj<typeof GlobalNavigationClient>;
 
 export const Authenticated: Story = {
   args: {
@@ -29,7 +29,7 @@ export const Unauthenticated: Story = {
 export const MobilePreview: Story = {
   render: (args) => (
     <div style={{ width: 375 }}>
-      <GlobalNavigation {...(args)} />
+      <GlobalNavigationClient {...(args)} />
     </div>
   ),
   args: {

@@ -1,3 +1,4 @@
+import { forwardRef } from "react";
 import clsx from "clsx"
 import { cva, type VariantProps } from "class-variance-authority";
 
@@ -35,16 +36,15 @@ export type InputProps = {
   className?: string;
 } & React.InputHTMLAttributes<HTMLInputElement> & VariantProps<typeof inputVariants>;
 
-export function Input({
-  status,
-  className,
-  ...rest
-}: InputProps) {
-
+export const Input = forwardRef<HTMLInputElement, InputProps>(
+  ({ status, className, ...rest }, ref) => {
   return (
     <input
+    ref={ref}
       {...rest}
       className={clsx(inputVariants({ status }), className)}
     />
   )
-}
+});
+
+Input.displayName = "Input";

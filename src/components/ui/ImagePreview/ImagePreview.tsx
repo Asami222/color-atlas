@@ -44,6 +44,8 @@ export function ImagePreview ({
     e.stopPropagation()
     onRemove?.();
   }
+
+  console.log("ImagePreview", src, alt, sizes, className, onRemove)
   return (
     <>
       <div className={clsx('relative w-full h-full',className)}>

@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import { Icon } from "../Icon/Icon";
 import { cva } from "class-variance-authority";
-import type { ReactNode } from "react";
+import { forwardRef, type ReactNode } from "react";
 
 const checkboxVariants = cva(
   "flex h-6 w-6 items-center justify-center rounded border-2",
@@ -51,50 +51,58 @@ export type CheckboxProps = Omit<
   error?: boolean;
 };
 
-export function Checkbox({
-  label,
-  checked = false,
-  disabled = false,
-  error = false,
-  required = false,
-  ...props
-}: CheckboxProps) {
-  return (
-    <label
-      className={clsx(
-        "flex items-center gap-2",
-        disabled && "cursor-not-allowed",
-        !disabled && "cursor-pointer"
-      )}
-    >
-      <input
-        type="checkbox"
-        {...props}
-        className="sr-only"
-      />
-
-      <span className={ checkboxVariants({checked,disabled,error}) }>
-        {checked && (
-          <Icon
-            name="check"
-            size="sm"
-            color="secondary"
-            filled
-          />
-        )}
-      </span>
-
-      <span
+export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
+  (
+    {
+      label,
+      checked = false,
+      disabled = false,
+      error = false,
+      required = false,
+      ...props
+    },
+    ref
+  ) => {
+    return (
+      <label
         className={clsx(
-          "text-text-base text-sm",
-          disabled && "text-text-disabled"
+          "flex items-center gap-2",
+          disabled && "cursor-not-allowed",
+          !disabled && "cursor-pointer"
         )}
       >
-        {label}
-        {required && (
-        <span className="ml-1 text-text-error">*</span>
-        )}
-      </span>
-    </label>
-  );
-}
+        <input
+          ref={ref}
+          type="checkbox"
+          {...props}
+          className="sr-only"
+        />
+
+        <span className={checkboxVariants({ checked, disabled, error })}>
+          {checked && (
+            <Icon
+              name="check"
+              size="sm"
+              color="secondary"
+              filled
+            />
+          )}
+        </span>
+
+        <span
+          className={clsx(
+            "text-text-base text-sm",
+            disabled && "text-text-disabled"
+          )}
+        >
+          {label}
+          {required && (
+            <span className="ml-1 text-text-error">*</span>
+          )}
+        </span>
+      </label>
+    );
+  }
+);
+
+Checkbox.displayName = "Checkbox";

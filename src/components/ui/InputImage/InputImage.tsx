@@ -1,19 +1,19 @@
-// InputImage.tsx（1枚専用）
+"use client";
+
+import clsx from "clsx"
 import { Dropzone } from "../Dropzone";
 import { ImagePreview } from "../ImagePreview";
 import { useState, useEffect } from "react";
 
 export type InputImageProps = { 
   hasError?: boolean;
-  width?: string;
-  height?: string;
+  className?: string;
   onChange?: (file: File | null) => void;
 }
 
 export function InputImage({
   hasError,
-  width = "368px",
-  height = "284px",
+  className,
   onChange,
 }: InputImageProps) {
 
@@ -53,12 +53,13 @@ export function InputImage({
   }, [previewUrl]);
 
   return (
-    <div className="relative" style={{ width, height }}>
-      
+    <div className={clsx("relative mx-auto max-w-104 max-h-78", className)} >
       {!file && (
       <Dropzone               
         onChange={handleDrop}
         error={hasError}
+        disabled={false}
+        className="w-full"
       />
       )}
 

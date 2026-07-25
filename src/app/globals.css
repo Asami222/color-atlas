@@ -112,6 +112,9 @@ body {
 
   /* radius */
   --radius-default: 3px;
+  /* shadow */
+  --shadow-original: 0 4px 6px -4px rgba(244, 235, 197, 1);
+  --shadow-original-sp: 0 -4px 6px -4px rgba(244, 235, 197, 1);
 }
 
 body {
@@ -137,7 +140,11 @@ a {
   text-decoration: none;
   transition: .25s;
 }
-
+/*
+a:hover {
+  text-decoration: underline;
+}
+*/
 ul {
   list-style: none;
 }

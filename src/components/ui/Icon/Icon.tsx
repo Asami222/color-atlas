@@ -9,7 +9,8 @@ const iconVariants = cva(
         default: "text-text-base",
         secondary: "text-text-secondary",
         disabled: "text-text-disabled",
-        upload: "text-text-upload"
+        upload: "text-text-upload",
+        help: "text-lime-600"
       },
     },
     defaultVariants: {
@@ -32,7 +33,7 @@ export type IconProps = {
   name: string;
   size?: IconSize;
   filled?: boolean;
-  color?: "default" | "secondary" | "disabled" | "upload";
+  color?: "default" | "secondary" | "disabled" | "upload" | "help";
   className?: string;
 };
 

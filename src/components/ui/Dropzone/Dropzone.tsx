@@ -6,11 +6,12 @@ import { Icon } from "../Icon";
 const dropzoneVariants = cva(
   [
     "flex items-center justify-center",
-    "aspect-[4/3] w-full max-w-md",
+    "w-full h-full",
     "rounded-default",
     "border-2 border-dashed",
     "transition-colors",
     "bg-background-secondary",
+    "cursor-pointer",
   ],
   {
     variants: {
@@ -62,15 +63,24 @@ export function Dropzone({
           : "default";
 
   return (
-    <div
-      {...getRootProps()}
+    <label
       className={clsx(
+        "absolute inset-0",
         dropzoneVariants({ state }),
         className
       )}
     >
-      <input {...getInputProps()} />
+      <input 
+        type="file"
+        accept="image/*"
+        disabled={disabled}
+        className="hidden"
+        onChange={(e) => {
+          onChange?.(e.target.files?.[0] ?? null);
+        }} />
+      <div>
       <Icon name="image_arrow_up" size="xxl" color="upload"/>
-    </div>
+      </div>
+    </label>
   );
 }

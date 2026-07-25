@@ -1,31 +1,34 @@
-
 import { zodResolver } from "@hookform/resolvers/zod";
-import { signupSchema, type SignupSchema } from "../libs/validations/authSchema";
+import { signupSchema, type SignupSchema } from "@/libs/validations/authSchema";
 import Link from "next/link";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Separator } from "@/components/ui/Separator";
-import { GoogleLogin } from "../GoogleLoginButton";
+import { OAuthLogin } from "../OAuthLoginButton";
 import { Field } from "@/components/ui/Field";
 import { Checkbox } from "@/components/ui/Checkbox";
+import { AuthPage } from "@/components/layout/AuthPage";
 
 export type SignupMethod =
   | "credential"
   | "google"
+  | "github"
   | null;
 
 export interface SignupFormProps {
-  onSignup?: (email: string, password: string, confirmPassword: string, check: boolean) => void
+  onSignup?: (data: SignupSchema) => void
   onGoogleLogin?: () => void
+  onGitHubLogin?: () => void
   loadingMethod?: SignupMethod;
   submitError?: string
 }
 
-export function SignupForm ({ onSignup, onGoogleLogin, loadingMethod, submitError }: SignupFormProps) {
+export function SignupForm ({ onSignup, onGoogleLogin, onGitHubLogin, loadingMethod = null, submitError }: SignupFormProps) {
   const {
     register,
     handleSubmit,
+    control,
     formState: { errors, isValid, isSubmitting },
   } = useForm<SignupSchema>({
     resolver: zodResolver(signupSchema),
@@ -34,24 +37,38 @@ export function SignupForm ({ onSignup, onGoogleLogin, loadingMethod, submitErro
 
   const isCredentialLoading = loadingMethod === "credential";
   const isGoogleLoading = loadingMethod === "google";
+  const isGitHubLoading = loadingMethod === "github";
+
 
   const isDisabled = loadingMethod !== null || isSubmitting;
 
   const handleGoogleLogin = () => {
     onGoogleLogin?.();
   }
+
+  const handleGitHubLogin = () => {
+    onGitHubLogin?.();
+  }
   
-  const onSubmit = ({ email, password, confirmPassword, check }: SignupSchema) => {
-    onSignup?.(email, password, confirmPassword, check);
+  const onSubmit = (data: SignupSchema) => {
+    onSignup?.(data);
   }
 
   return (
+    <AuthPage title="アカウント作成">
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="flex flex-col gap-6">
         <div className="flex flex-col gap-4">
-
+          <div className="flex w-full gap-2 items-center">
           {/* Google */}
-          <GoogleLogin onClick={handleGoogleLogin} loading={isGoogleLoading} disabled={isDisabled}/>
+            <div className="flex-1">
+              <OAuthLogin oauth="google" onClick={handleGoogleLogin} loading={isGoogleLoading} disabled={isDisabled}/>
+            </div>
+            {/* GitHub */}
+            <div className="flex-1">
+              <OAuthLogin oauth="github" onClick={handleGitHubLogin} loading={isGitHubLoading} disabled={isDisabled}/>
+            </div>
+          </div>
         </div>
 
         {/* 区切り線 */}
@@ -91,11 +108,18 @@ export function SignupForm ({ onSignup, onGoogleLogin, loadingMethod, submitErro
               />
             </Field>
           </div>
-          <div>
+          <div className="mx-auto">
+            <Controller
+              name="check"
+              control={control}
+              render={({ field }) => (
             <Checkbox 
+              checked={field.value}
+              onChange={field.onChange}
+              onBlur={field.onBlur}
+              ref={field.ref}
               error={!!errors.check}
               required
-              {...register("check")}
               label={
                 <>
                   <Link
@@ -119,6 +143,8 @@ export function SignupForm ({ onSignup, onGoogleLogin, loadingMethod, submitErro
                 </>
               }
             />
+            )}
+            />
             {errors.check && (
               <p className="mt-1 text-sm text-text-error text-center">
                 {errors.check.message}
@@ -133,6 +159,7 @@ export function SignupForm ({ onSignup, onGoogleLogin, loadingMethod, submitErro
               </p>
             )}
               <Button
+                type="submit"
                 size="Small"
                 error={!!submitError}
                 loading={isCredentialLoading}
@@ -154,5 +181,6 @@ export function SignupForm ({ onSignup, onGoogleLogin, loadingMethod, submitErro
           </div>
         </div>
     </form>
+    </AuthPage>
   )
 }

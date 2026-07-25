@@ -1,0 +1,83 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String    @id @default(uuid()) @db.Uuid
+  name          String?
+  email         String    @unique
+  emailVerified DateTime?
+  image         String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  password      String?
+  isGuest       Boolean  @default(false)
+  accounts      Account[]
+  sessions      Session[]
+  places        Place[]
+  passwordReset PasswordResetToken[]
+}
+
+model Place {
+  id        String   @id @default(uuid()) @db.Uuid
+  userId    String   @db.Uuid
+  name      String   
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  user      User    @relation(fields: [userId], references: [id])
+
+  @@unique([userId, name])
+}
+
+model PasswordResetToken {
+  id        String   @id @default(cuid())
+  token     String   @unique
+
+  userId    String
+  user      User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+}
+
+model Account {
+  userId            String @db.Uuid
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([provider, providerAccountId])
+}
+
+model Session {
+  sessionToken String   @unique
+  userId       String   @db.Uuid
+  expires      DateTime
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String
+  expires    DateTime
+
+  @@id([identifier, token])
+}

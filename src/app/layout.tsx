@@ -1,7 +1,11 @@
 /* eslint-disable @next/next/no-page-custom-font */
 import type { Metadata } from "next";
-import { notoSansJP, roboto } from "@/lib/fonts";
+import { notoSansJP, roboto } from "@/libs/fonts";
 import "./globals.css";
+import { Logo } from "@/components/ui/Logo";
+import { GlobalNavigation } from "@/components/layout/GlobalNavigation/GlobalNavigation";
+import { ReactQueryProvider } from "./providers";
+import { Toaster } from "sonner";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -24,7 +28,20 @@ export default function RootLayout({
           href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=optional"
         />
       </head>
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body>
+        <ReactQueryProvider>
+        <GlobalNavigation />
+        <div className="w-[94%] mx-auto max-w-143">
+            <div className="block md:hidden">
+              <Logo />
+            </div>
+            <main className="w-full my-4 mx-auto px-4 pb-20 md:pt-20 md:pb-10">
+                {children}
+            </main>
+            </div>
+            <Toaster position="top-center" richColors />
+        </ReactQueryProvider>
+      </body>
     </html>
   );
 }

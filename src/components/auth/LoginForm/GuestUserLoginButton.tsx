@@ -9,6 +9,7 @@ export type GuestUserLoginButtonProps = {
 export function GuestUserLoginButton({loading, disabled, onClick}: GuestUserLoginButtonProps) {
   return (
     <Button 
+      type="button"
       variant="Outline"
       size="Small"
       disabled={disabled}

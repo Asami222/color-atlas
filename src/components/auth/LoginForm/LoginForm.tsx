@@ -1,30 +1,32 @@
-
 import { zodResolver } from "@hookform/resolvers/zod";
-import { loginSchema, type LoginSchema } from "../libs/validations/authSchema";
+import { loginSchema, type LoginSchema } from "../../../libs/validations/authSchema";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Separator } from "@/components/ui/Separator";
-import { GoogleLogin } from "../GoogleLoginButton";
+import { OAuthLogin } from "../OAuthLoginButton";
 import { GuestUserLoginButton } from "./GuestUserLoginButton";
 import { Field } from "@/components/ui/Field";
+import { AuthPage } from "@/components/layout/AuthPage";
 
 export type LoginMethod =
   | "credential"
   | "guest"
   | "google"
+  | "github"
   | null;
 
 export interface LoginFormProps {
-  onLogin?: (email: string, password: string) => void
+  onLogin?: (email: string, password: string) => void;
   onGuestLogin?: () => void;
-  onGoogleLogin?: () => void
+  onGoogleLogin?: () => void;
+  onGitHubLogin?: () => void;
   loadingMethod?: LoginMethod;
-  submitError?: string
+  submitError?: string;
 }
 
-export function LoginForm ({ onLogin, onGuestLogin, onGoogleLogin, loadingMethod, submitError }: LoginFormProps) {
+export function LoginForm ({ onLogin, onGuestLogin, onGoogleLogin, onGitHubLogin, loadingMethod = null, submitError }: LoginFormProps) {
   const {
     register,
     handleSubmit,
@@ -34,14 +36,21 @@ export function LoginForm ({ onLogin, onGuestLogin, onGoogleLogin, loadingMethod
     mode: "onChange",
   })
 
+  console.log(isValid);
+
   const isCredentialLoading = loadingMethod === "credential";
   const isGoogleLoading = loadingMethod === "google";
+  const isGitHubLoading = loadingMethod === "github";
   const isGuestLoading = loadingMethod === "guest";
 
   const isDisabled = loadingMethod !== null || isSubmitting;
 
   const handleGoogleLogin = () => {
     onGoogleLogin?.();
+  }
+
+  const handleGitHubLogin = () => {
+    onGitHubLogin?.();
   }
 
   const handleGuestLogin = () => {
@@ -53,15 +62,23 @@ export function LoginForm ({ onLogin, onGuestLogin, onGoogleLogin, loadingMethod
   }
 
   return (
+    <AuthPage title="ログイン">
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="flex flex-col gap-6">
         <div className="flex flex-col gap-4">
 
           {/* --- ゲストユーザー --- */}
           <GuestUserLoginButton onClick={handleGuestLogin} loading={isGuestLoading} disabled={isDisabled}/>
-
+          <div className="flex w-full gap-2 items-center">
           {/* Google */}
-          <GoogleLogin onClick={handleGoogleLogin} loading={isGoogleLoading} disabled={isDisabled}/>
+          <div className="flex-1">
+          <OAuthLogin oauth="google" onClick={handleGoogleLogin} loading={isGoogleLoading} disabled={isDisabled}/>
+          </div>
+          {/* GitHub */}
+          <div className="flex-1">
+          <OAuthLogin oauth="github" onClick={handleGitHubLogin} loading={isGitHubLoading} disabled={isDisabled}/>
+          </div>
+          </div>
         </div>
 
         {/* 区切り線 */}
@@ -107,6 +124,7 @@ export function LoginForm ({ onLogin, onGuestLogin, onGoogleLogin, loadingMethod
               </p>
             )}
               <Button
+                type="submit"
                 size="Small"
                 error={!!submitError}
                 loading={isCredentialLoading}
@@ -122,11 +140,12 @@ export function LoginForm ({ onLogin, onGuestLogin, onGoogleLogin, loadingMethod
 
           {/* --- 新規登録Link --- */}
           <div className="text-center">
-            <Link href={`/auth/signup`} className="hover:underline hover:cursor-pointer text-text-base text-sm font-medium">
+            <Link href={`/auth/signup`} className="hover:cursor-pointer text-text-base text-sm font-medium">
               アカウントをお持ちでない方はこちら
             </Link>
           </div>
         </div>
     </form>
+    </AuthPage>
   )
 }

@@ -1,2 +1,2 @@
-export { GlobalNavigation } from "./GlobalNavigation"
-export type { GlobalNavigationProps } from "./GlobalNavigation"
+export { GlobalNavigationClient } from "./GlobalNavigationClient"
+export type { GlobalNavigationClientProps } from "./GlobalNavigationClient"
