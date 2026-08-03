@@ -20,6 +20,7 @@ model User {
   accounts      Account[]
   sessions      Session[]
   places        Place[]
+  palette       Palette[]
   passwordReset PasswordResetToken[]
 }
 
@@ -31,15 +32,37 @@ model Place {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   user      User    @relation(fields: [userId], references: [id])
+  palette   Palette[]
 
   @@unique([userId, name])
 }
 
+model Palette {
+  id          String   @id @default(uuid()) @db.Uuid
+  userId      String   @db.Uuid
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  placeId     String   @db.Uuid
+  place       Place   @relation(fields: [placeId], references: [id])
+  memo        String?
+  shape       ShapeType
+  colors      Json
+  createdAt   DateTime @default(now())
+  captureDate DateTime?
+}
+
+enum ShapeType {
+  column
+  grid
+  chips
+  circle
+  triangle
+}
+
 model PasswordResetToken {
-  id        String   @id @default(cuid())
+  id        String   @id @default(uuid()) @db.Uuid
   token     String   @unique
 
-  userId    String
+  userId    String   @db.Uuid
   user      User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   expiresAt DateTime

@@ -6,11 +6,7 @@ export type PaletteItem = {
   ratio: number;
 };
 
-export type DynamicColorProps = {
-  colorData: PaletteItem[];
-}
-
-type CreatePaletteState = {
+export type CreatePaletteState = {
   shape: ShapeType;
   colors: PaletteItem[];
 };

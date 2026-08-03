@@ -6,13 +6,10 @@ const guestRoutes = [
   "/auth/signup",
   "/auth/forgot-password",
   "/auth/reset-password",
-  "/create",
 ];
 
 const protectedRoutes = [
-  "/profile",
-  "/favorites",
-  "/settings",
+  "/mypage",
 ];
 
 export default auth((req) => {
@@ -34,7 +31,7 @@ export default auth((req) => {
     !isLoggedIn &&
     protectedRoutes.some((route) => pathname.startsWith(route))
   ) {
-    return NextResponse.redirect(new URL("/login", req.url));
+    return NextResponse.redirect(new URL("/auth/login", req.url));
   }
 
   return NextResponse.next();

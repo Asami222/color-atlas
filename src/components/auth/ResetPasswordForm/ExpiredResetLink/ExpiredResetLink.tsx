@@ -1,9 +1,11 @@
 import { Button } from "@/components/ui/Button";
-import { useRouter } from "next/navigation";
 
-export function ExpiredResetLink() {
+type ExpiredResetLinkProps = {
+  onForgotPassword: () => void;
+  onLogin: () => void;
+};
 
-  const router = useRouter()
+export function ExpiredResetLink({ onForgotPassword, onLogin,}: ExpiredResetLinkProps) {
 
   return (
     <div className="space-y-8">
@@ -18,7 +20,7 @@ export function ExpiredResetLink() {
         <Button
           type="button"
           size="Small"
-          onClick={() => router.push("/auth/forgot-password")}
+          onClick={onForgotPassword}
           className="w-full"
         >
           再設定ページへ戻る
@@ -28,7 +30,7 @@ export function ExpiredResetLink() {
           type="button"
           size="Small"
           variant="Text"
-          onClick={() => router.push("/auth/login")}
+          onClick={onLogin}
           className="w-full"
         >
           ログインへ戻る

@@ -5,19 +5,21 @@ import { IconButton, IconLink } from "@/components/ui/IconWrapper";
 //import { Tooltip } from "@/components/ui/Tooltip";
 import { usePathname } from "next/navigation";
 import { toast } from "sonner";
+import { signOut } from "next-auth/react";
 
 export interface GlobalNavigationClientProps {
   isAuthenticated: boolean;
-  onLogout: () => void | Promise<void>;
 }
 
-export function GlobalNavigationClient ({ isAuthenticated, onLogout }: GlobalNavigationClientProps) {
+export function GlobalNavigationClient ({ isAuthenticated }: GlobalNavigationClientProps) {
 
   const pathname = usePathname();
 
   const handleLogoutClick = async () => {
     try {
-      await onLogout();
+      await signOut({
+      callbackUrl: "/",
+    });
       toast.success("ログアウトしました");
     } catch (error) {
       console.error("ログアウトに失敗しました", error);
@@ -39,7 +41,7 @@ export function GlobalNavigationClient ({ isAuthenticated, onLogout }: GlobalNav
             { isAuthenticated ? (
               <>
                 <li>
-                  <IconLink href="/user" icon="account_circle" label="ログインユーザー" active={pathname === "/user"}/>
+                  <IconLink href="/mypage" icon="account_circle" label="ログインユーザー" active={pathname === "/mypage"}/>
                 </li>
                 <li>
                   <IconButton icon="logout" label="ログアウト" onClick={handleLogoutClick}/>
@@ -48,7 +50,7 @@ export function GlobalNavigationClient ({ isAuthenticated, onLogout }: GlobalNav
             ):(
               <>
                 <li>
-                  <IconLink href="/user" icon="account_circle_off" label="未ログインユーザー" active={pathname === "/user"}/>
+                  <IconLink href="/mypage" icon="account_circle_off" label="未ログインユーザー" active={pathname === "/mypage"}/>
                 </li>
                 <li>
                   <IconLink href="/login" icon="login" label="ログイン" active={pathname === "/login"}/>

@@ -22,8 +22,7 @@ type Story = StoryObj<typeof SignupForm>
 
 export const Default: Story = {
   args: {
-    onSignup: (email, password, confirmPassword, check) =>
-      console.log("onSignup", { email, password, confirmPassword, check }),
+    onSignup: (data) => console.log("onSignup", data),
     onGoogleLogin: () => console.log("onGoogleLogin"),
     loadingMethod: null,
   },

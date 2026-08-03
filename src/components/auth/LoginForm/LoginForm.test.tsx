@@ -92,7 +92,7 @@ describe("LoginForm", () => {
 
     await user.click(
       screen.getByRole("button", {
-        name: /グーグルでログイン/,
+        name: /Googleで続ける/,
       })
     );
 
@@ -145,7 +145,7 @@ describe("LoginForm", () => {
 
     expect(
       screen.getByRole("button", {
-        name: /グーグルでログイン/,
+        name: /処理中です.../,
       })
     ).toBeDisabled();
 

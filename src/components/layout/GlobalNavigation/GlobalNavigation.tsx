@@ -1,6 +1,6 @@
 import { auth } from "@/libs/auth"; // auth.tsからインポート
 import { GlobalNavigationClient } from "./GlobalNavigationClient";
-import { handleLogout } from "@/app/actions/auth";
+//import { handleLogout } from "@/app/actions/auth";
 
 export async function GlobalNavigation() {
   const session = await auth();
@@ -9,7 +9,6 @@ export async function GlobalNavigation() {
   return (
     <GlobalNavigationClient 
       isAuthenticated={isAuthenticated} 
-      onLogout={handleLogout} 
     />
   );
 }

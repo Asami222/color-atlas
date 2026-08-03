@@ -41,6 +41,7 @@ export function ResetPasswordForm ({ onClick, isLoading, submitError }: ResetPas
                 id="password"
                 type="password"
                 autoComplete="new-password"
+                data-testid="password-input"
                 placeholder="•••••••••"
                 {...register("password")}
                 status={errors.password ? "error" : "default"}
@@ -52,6 +53,7 @@ export function ResetPasswordForm ({ onClick, isLoading, submitError }: ResetPas
                 id="confirmPassword"
                 type="password"
                 autoComplete="new-password"
+                data-testid="confirm-input"
                 placeholder="•••••••••"
                 {...register("confirmPassword")}
                 status={errors.confirmPassword ? "error" : "default"}
@@ -72,7 +74,6 @@ export function ResetPasswordForm ({ onClick, isLoading, submitError }: ResetPas
                 loadingText="作成中..."
                 disabled={!isValid || isDisabled}
                 data-test-id="reset-password"
-                aria-label="パスワードリセット"
                 className="w-full"
               >
                 新パスワード作成

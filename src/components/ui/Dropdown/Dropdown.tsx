@@ -61,6 +61,7 @@ export type DropdownProps = {
   required?: boolean;
   onChange?: (value: string) => void;
   className?: string;
+  htmlFor?: string
 };
 
 export function Dropdown({
@@ -74,6 +75,7 @@ export function Dropdown({
   error,
   required,
   onChange,
+  htmlFor,
   className,
 }: DropdownProps) {
   const state =
@@ -89,7 +91,7 @@ export function Dropdown({
         <div className="flex items-center gap-1">
           <Icon name={iconName} />
 
-          <label className="font-medium text-xl">
+          <label htmlFor={htmlFor} className="font-medium text-xl">
             {label}
 
             {required && (
@@ -98,7 +100,16 @@ export function Dropdown({
           </label>
         </div>
       )}
-
+      {helperText && (
+        <p
+          className={clsx(
+            "text-xs",
+            error && "text-text-error"
+          )}
+        >
+          {helperText}
+        </p>
+      )}
       <Select.Root
         value={value}
         disabled={disabled || options.length === 0}
@@ -175,17 +186,6 @@ export function Dropdown({
           </Select.Content>
         </Select.Portal>
       </Select.Root>
-
-      {helperText && (
-        <p
-          className={clsx(
-            "text-xs",
-            error && "text-text-error"
-          )}
-        >
-          {helperText}
-        </p>
-      )}
     </div>
   );
 }

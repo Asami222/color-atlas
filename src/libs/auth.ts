@@ -55,13 +55,19 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   ],
 
   // セッションの保持方法（通常はデータベースに保存、またはJWT）
-  session: { strategy: "database" },
+  session: { strategy: "jwt" },
 
   // 必要に応じてコールバックなどを設定
   callbacks: {
-    async session({ session, user }) {
+    async jwt({ token, user }) {
+      if (user) {
+        token.id = user.id;
+      }
+      return token;
+    },
+    async session({ session, token }) {
       if (session.user) {
-        session.user.id = user.id; // セッション情報にユーザーIDを含める
+        session.user.id = token.id as string; // セッション情報にユーザーIDを含める
       }
       return session;
     },

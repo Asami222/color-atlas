@@ -23,23 +23,29 @@ export default function RootLayout({
       className={`${roboto.variable} ${notoSansJP.variable} h-full`}
     >
       <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link
+          rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossOrigin=""
+        />
         <link
           rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=optional"
+          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap"
         />
       </head>
       <body>
         <ReactQueryProvider>
         <GlobalNavigation />
         <div className="w-[94%] mx-auto max-w-143">
-            <div className="block md:hidden">
+            <div className="block md:hidden mt-5 mb-10 md:mt-0 md:mb-0">
               <Logo />
             </div>
             <main className="w-full my-4 mx-auto px-4 pb-20 md:pt-20 md:pb-10">
                 {children}
             </main>
-            </div>
-            <Toaster position="top-center" richColors />
+        </div>
+        <Toaster position="top-center" richColors />
         </ReactQueryProvider>
       </body>
     </html>

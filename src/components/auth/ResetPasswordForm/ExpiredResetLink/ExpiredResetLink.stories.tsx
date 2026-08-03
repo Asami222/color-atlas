@@ -6,12 +6,8 @@ const meta: Meta<typeof ExpiredResetLink> = {
   component: ExpiredResetLink,
   tags: ["autodocs"],
   argTypes: {
+    onLogin: { table: { disable: true } },
     onForgotPassword: { table: { disable: true } },
-    onBackToLogin: { table: { disable: true } },
-    loadingMethod: {
-      control: { type: "radio" },
-      options: [null, "forgot", "login"],
-    },
   },
 };
 
@@ -21,35 +17,12 @@ type Story = StoryObj<typeof ExpiredResetLink>;
 
 export const Default: Story = {
   args: {
-    loadingMethod: null,
-    disabled: false,
-    onForgotPassword: () => console.log("onForgotPassword"),
-    onBackToLogin: () => console.log("onBackToLogin"),
+    onLogin: () => console.log("onGoogleLogin"),
+    onForgotPassword: () => console.log("onGoogleLogin"),
   },
   render: (args) => (
     <div className="max-w-md w-full">
-      <ExpiredResetLink {...args} />
+      <ExpiredResetLink {...args}/>
     </div>
   ),
-};
-
-export const LoadingForgot: Story = {
-  args: {
-    ...Default.args,
-    loadingMethod: "forgot",
-  },
-};
-
-export const LoadingLogin: Story = {
-  args: {
-    ...Default.args,
-    loadingMethod: "login",
-  },
-};
-
-export const Disabled: Story = {
-  args: {
-    ...Default.args,
-    disabled: true,
-  },
 };

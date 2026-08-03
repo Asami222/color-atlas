@@ -2,6 +2,7 @@ import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi } from "vitest";
 import { SignupForm } from "./SignupForm";
+import { logRoles } from "@testing-library/dom";
 
 describe("SignupForm", () => {
   it("フォームが表示される", () => {
@@ -11,7 +12,7 @@ describe("SignupForm", () => {
     expect(container.querySelector("#password")).toBeInTheDocument();
     expect(container.querySelector("#confirmPassword")).toBeInTheDocument();
     expect(
-      screen.getByRole("button", { name: "新規登録ボタン" })
+      screen.getByRole("button", { name: "作成" })
     ).toBeInTheDocument();
   });
 
@@ -19,27 +20,31 @@ describe("SignupForm", () => {
     const user = userEvent.setup();
     const onSignup = vi.fn();
 
-    const { container } = render(<SignupForm onSignup={onSignup} />);
-
-    const passwordInput = container.querySelector("#password") as HTMLInputElement;
-    const confirmPasswordInput = container.querySelector("#confirmPassword") as HTMLInputElement;
+    render(<SignupForm onSignup={onSignup} />);
+    
+    screen.debug();
+    logRoles(document.body);
 
     await user.type(screen.getByLabelText(/メールアドレス/i), "test@example.com");
-    await user.type(passwordInput, "password123!");
-    await user.type(confirmPasswordInput, "password123!");
-    await user.click(screen.getByRole("checkbox"));
+    await user.type(screen.getByTestId('password-input'), "password123!");
+    await user.type(screen.getByTestId('confirm-input'), "password123!");
+    await user.click(screen.getByRole("checkbox", {name: /利用規約/,}));
+
+    const button = screen.getByRole("button", { name: "作成" });
 
     await waitFor(() => {
-      expect(screen.getByRole("button", { name: "新規登録ボタン" })).toBeEnabled();
+      expect(button).toBeEnabled();
     });
 
-    await user.click(screen.getByRole("button", { name: "新規登録ボタン" }));
+    await user.click(button);
 
     expect(onSignup).toHaveBeenCalledWith(
-      "test@example.com",
-      "password123!",
-      "password123!",
-      true
+      expect.objectContaining({
+        email: "test@example.com",
+        password: "password123!",
+        confirmPassword: "password123!",
+        check: true,
+      })
     );
   });
 
@@ -47,16 +52,13 @@ describe("SignupForm", () => {
     const user = userEvent.setup();
     const onSignup = vi.fn();
 
-    const { container } = render(<SignupForm onSignup={onSignup} />);
-
-    const passwordInput = container.querySelector("#password") as HTMLInputElement;
-    const confirmPasswordInput = container.querySelector("#confirmPassword") as HTMLInputElement;
+    render(<SignupForm onSignup={onSignup} />);
 
     await user.type(screen.getByLabelText(/メールアドレス/i), "abc");
-    await user.type(passwordInput, "pass");
-    await user.type(confirmPasswordInput, "different");
+    await user.type(screen.getByTestId('password-input'), "pass");
+    await user.type(screen.getByTestId('confirm-input'), "different");
 
-    expect(screen.getByRole("button", { name: "新規登録ボタン" })).toBeDisabled();
+    expect(screen.getByRole("button", { name: "作成" })).toBeDisabled();
     expect(onSignup).not.toHaveBeenCalled();
   });
 
@@ -66,7 +68,7 @@ describe("SignupForm", () => {
 
     render(<SignupForm onGoogleLogin={onGoogleLogin} />);
 
-    await user.click(screen.getByRole("button", { name: /グーグルでログイン/i }));
+    await user.click(screen.getByRole("button", { name: /Googleで続ける/i }));
 
     expect(onGoogleLogin).toHaveBeenCalledOnce();
   });
@@ -80,7 +82,7 @@ describe("SignupForm", () => {
   it("credential loading中はボタンがdisabledになる", () => {
     render(<SignupForm loadingMethod="credential" />);
 
-    expect(screen.getByRole("button", { name: "新規登録ボタン" })).toBeDisabled();
+    expect(screen.getByRole("button", { name: "作成中..." })).toBeDisabled();
     expect(screen.getByText("作成中...")).toBeInTheDocument();
   });
 });

@@ -47,7 +47,7 @@ export function ForgotPasswordForm ({ onClick, isLoading, submitError, sent }: F
             </Field>
           <div>
             {submitError && (
-              <p role="alert" data-testid="login-error" className="text-text-error text-center text-sm my-2">
+              <p role="alert" data-testid="forgot-password-error" className="text-text-error text-center text-sm my-2">
                 {submitError}
               </p>
             )}

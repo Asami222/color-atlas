@@ -26,7 +26,8 @@ export function LoginFormContainer() {
         callbackUrl,
       })
       if (result?.ok && result.url) {
-      router.push(result.url) // ログイン成功後に 前のページまたはホーム へ
+      router.replace(result.url) // ログイン成功後に 前のページまたはホーム へ
+      router.refresh();
     } else {
       toast.error(result.error || "ログインに失敗しました");
     }

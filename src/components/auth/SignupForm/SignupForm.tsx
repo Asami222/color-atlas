@@ -91,6 +91,7 @@ export function SignupForm ({ onSignup, onGoogleLogin, onGitHubLogin, loadingMet
                 id="password"
                 type="password"
                 autoComplete="new-password"
+                data-testid="password-input"
                 placeholder="•••••••••"
                 {...register("password")}
                 status={errors.password ? "error" : "default"}
@@ -103,6 +104,7 @@ export function SignupForm ({ onSignup, onGoogleLogin, onGitHubLogin, loadingMet
                 type="password"
                 autoComplete="new-password"
                 placeholder="•••••••••"
+                data-testid="confirm-input"
                 {...register("confirmPassword")}
                 status={errors.confirmPassword ? "error" : "default"}
               />
@@ -165,8 +167,6 @@ export function SignupForm ({ onSignup, onGoogleLogin, onGitHubLogin, loadingMet
                 loading={isCredentialLoading}
                 loadingText="作成中..."
                 disabled={!isValid || isDisabled}
-                data-test-id="signup"
-                aria-label="新規登録ボタン"
                 className="w-full"
               >
                 作成

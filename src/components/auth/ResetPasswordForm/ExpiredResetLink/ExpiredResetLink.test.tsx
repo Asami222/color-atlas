@@ -5,19 +5,17 @@ import { ExpiredResetLink } from "./ExpiredResetLink";
 
 describe("ExpiredResetLink", () => {
   it("フォームが表示される", () => {
-    const onForgot = vi.fn();
-    const onBack = vi.fn();
+    const onForgotPassword = vi.fn();
+    const onLogin = vi.fn();
 
-    render(
-      <ExpiredResetLink onForgotPassword={onForgot} onBackToLogin={onBack} />
-    );
+    render(<ExpiredResetLink onForgotPassword={onForgotPassword} onLogin={onLogin} />);
 
     expect(
       screen.getByText(/再設定リンクの有効期限が切れています/)
     ).toBeInTheDocument();
 
     expect(
-      screen.getByRole("button", { name: "再設定メールを送信" })
+      screen.getByRole("button", { name: "再設定ページへ戻る" })
     ).toBeInTheDocument();
 
     expect(
@@ -25,55 +23,17 @@ describe("ExpiredResetLink", () => {
     ).toBeInTheDocument();
   });
 
-  it("ボタンをクリックするとハンドラが呼ばれる", async () => {
+  it("ボタンをクリックすると対応するハンドラが呼ばれる", async () => {
     const user = userEvent.setup();
-    const onForgot = vi.fn();
-    const onBack = vi.fn();
+    const onForgotPassword = vi.fn();
+    const onLogin = vi.fn();
 
-    render(
-      <ExpiredResetLink onForgotPassword={onForgot} onBackToLogin={onBack} />
-    );
+    render(<ExpiredResetLink onForgotPassword={onForgotPassword} onLogin={onLogin} />);
 
-    await user.click(screen.getByRole("button", { name: "再設定メールを送信" }));
+    await user.click(screen.getByRole("button", { name: "再設定ページへ戻る" }));
     await user.click(screen.getByRole("button", { name: "ログインへ戻る" }));
 
-    expect(onForgot).toHaveBeenCalledOnce();
-    expect(onBack).toHaveBeenCalledOnce();
-  });
-
-  it("loadingMethodによりloadingとdisabledが反映される", () => {
-    const onForgot = vi.fn();
-    const onBack = vi.fn();
-
-    render(
-      <ExpiredResetLink onForgotPassword={onForgot} onBackToLogin={onBack} loadingMethod="forgot" />
-    );
-
-    expect(
-      screen.getByRole("button", { name: "再設定メールを送信" })
-    ).toBeDisabled();
-
-    expect(screen.getByText("送信中です...")).toBeInTheDocument();
-
-    expect(
-      screen.getByRole("button", { name: "ログインへ戻る" })
-    ).toBeDisabled();
-  });
-
-  it("props disabled=true ならボタンが無効", () => {
-    const onForgot = vi.fn();
-    const onBack = vi.fn();
-
-    render(
-      <ExpiredResetLink onForgotPassword={onForgot} onBackToLogin={onBack} disabled />
-    );
-
-    expect(
-      screen.getByRole("button", { name: "再設定メールを送信" })
-    ).toBeDisabled();
-
-    expect(
-      screen.getByRole("button", { name: "ログインへ戻る" })
-    ).toBeDisabled();
+    expect(onForgotPassword).toHaveBeenCalledTimes(1);
+    expect(onLogin).toHaveBeenCalledTimes(1);
   });
 });

@@ -17,7 +17,6 @@ export function OAuthLogin({oauth, loading, disabled, onClick}: OAuthLoginProps)
       loading={loading}
       disabled={disabled}
       loadingText="処理中です..."
-      aria-label={oauth === "google" ? "Googleでログイン" : "GitHubでログイン"}
       onClick={onClick}
       className="w-full"
     >

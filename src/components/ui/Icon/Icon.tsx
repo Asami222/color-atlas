@@ -2,7 +2,7 @@ import { cva } from "class-variance-authority";
 import clsx from "clsx";
 
 const iconVariants = cva(
-  "material-symbols-outlined select-none",
+  "material-symbols-outlined select-none align-middle",
   {
     variants: {
       color: {
@@ -37,13 +37,13 @@ export type IconProps = {
   className?: string;
 };
 
-export function Icon({
+export const Icon = ({
   name,
   size = "md",
   filled = false,
   color = "default",
   className,
-}: IconProps) {
+}: IconProps) => {
   const currentSize = fontSizeMap[size];
 
   return (

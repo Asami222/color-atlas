@@ -1,6 +1,5 @@
 
-import { auth } from "@/libs/auth";
-import { CreateColorAtlasUI } from "./CreateColorAtlasUI";
+import { CreateColorAtlasForm } from "@/components/create/CreatePaletteForm";
 //import { redirect } from "next/navigation";
 
 
@@ -19,6 +18,6 @@ export default async function CreateColorAtlas() {
   */
 
   return (
-    <CreateColorAtlasUI />
+    <CreateColorAtlasForm />
   )
 }
