@@ -48,7 +48,7 @@ body {
   --color-neutral-200: #E5E7EB;
   --color-neutral-400: #9CA3AF;
   --color-neutral-500: #6B7280;
-  --color-neutral-950: #111111;
+  --color-neutral-950: #291100;
   --color-white: #FFFFFF;
   /* base color */
   --color-primary: #c65300;
@@ -67,6 +67,7 @@ body {
   --color-text-error: #9F0712;
   --color-text-disabled: var(--color-neutral-400);
   --color-text-upload: var(--color-teal-200);
+  --color-text-place-title: #612B23;
   
   /* border*/
   --color-border-default: var(--color-primary);

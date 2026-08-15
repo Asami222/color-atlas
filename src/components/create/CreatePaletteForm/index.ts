@@ -1,2 +1,2 @@
-export { CreateColorAtlasForm } from "./CreatePaletteForm"
+export { CreatePaletteForm } from "./CreatePaletteForm"
 export type { CreatePaletteRequest } from "./CreatePaletteForm"

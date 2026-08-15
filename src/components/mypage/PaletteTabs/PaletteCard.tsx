@@ -1,21 +1,28 @@
 import { CreatePaletteState } from "@/store/createPalette";
 import { PaletteShape } from "@/components/PaletteShape/PaletteShape";
+import Link from "next/link";
+import clsx from "clsx"
 
 type PaletteCardProps = {
-    palette: CreatePaletteState;
+    palette: CreatePaletteState & {
+        id: string;
+    };
 };
 
 export function PaletteCard({
     palette,
 }: PaletteCardProps) {
+   
     return (
-        <div className="flex items-center justify-center" style={{ width: `100%`, aspectRatio: `1/1` }}>
-            <div className="width-[80%]">
+        <Link href={`/mypage/${palette.id}`}>
+        <div className="flex items-center justify-center aspect-square w-full">
+            <div className={clsx("w-[80%]",palette.shape === "chips" && "md:w-[64%]")}>
                 <PaletteShape
                     shape={palette.shape}
                     colors={palette.colors}
                 />
             </div>
         </div>
+        </Link>
     );
 }

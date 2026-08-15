@@ -1,36 +1,144 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+<div id="top"></div>
 
-## Getting Started
+# Color Atlas
 
-First, run the development server:
+#### まず、このアプリを知ってください
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+### アプリケーションについて
+<!-- プロジェクトについて -->
+例えば、ある街のイメージを伝えたいと思った時どうしますか？街の何ヶ所かで写真を撮って並べますか？しかし、1枚しか写真を使えないとしたらどうしますか？街の1番象徴的なものを写真に納めるでしょうか？しかしその1枚では難しさがあります。
+人は街の中を動き回り街をイメージで捉えることはできますが、写真ではその場所、その瞬間のみしか捉えることはできません。場所の範囲が広くなればなるほど、1枚の写真で伝えることは難しくなります。それに、その写真の中に写っているものは本当に街を表していると言えるでしょうか？見た目は本質を表しているとは限らないからです。
+この瞬間この場所ではなく、街全体、朝昼晩を1つに切り取るにはどうしたら良いか。私にも答えは分かりません。ただ、抽象化が有効ではないかと考えたのです。単純化してまとめ、再構築する。普段私が行うフロントエンドのように。これは私が行う実験でもあり、結果的に本当に街を表現できるという保証はありませんし、最後にまとめるのは自分自身です。ですが私は冒険が好きです。確証はなくてもアイデアだけを持ち出発しようと考えました。デザイナーの方、それ以外の全ての方、このアプリで一緒に冒険をしてみませんか？
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 制作背景
+日々学習などをする中でなかなかモチベーションが上がらない時がありますが、その先に頑張った自分へのご褒美があるともう少し頑張ろうという気持ちになれます。星を集めて交換するという少しゲーム感覚を取り入れているのもモチベーション維持に役立つのではないかと考えToDoアプリにご褒美機能を追加したアプリを制作しました。
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### なぜブラッシュアップしたか
+前回の実装では、ToDoイメージを表示するUIがあるのにユーザーが画像をアップロードできないという問題がありました(アップロードしても保存はされず仮の画像が表示されます)。そしてサーバー側の認証ロジックは最小限でフロント側と独立したものでした。また、テスト実装もしっかり取り入れていきたいという思いもあり、これらを解決するブラッシュアップを目指しました。<br/>
+結果、全てのフォームにServer Actionsを取り入れ、サーバー側とフロント側で同じzodのバリデーションルールを作りスキーマとして共用し、内容も前回より強化しました。また、Supabase Storageを使用してユーザーがストレージに画像をアップロードできるようにしました。前回のテストはJestによるユニットテストが主でしたが、今回アクセシビリティチェックにStorybook、単体テストにvitest、結合テストにPlayWrightを使用し、テスト内容を増やしました。それに伴いDBの変更、UIの改善、余分な設定の多かったstyled-componentsからTailwind CSSへの変更などを行いコードの可読性を高めました。<br/>テストの実装によって全体的に保守性をアップするという面ではまだ課題が残っており、テスト構築方法をより考えていく必要性を感じました。
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## URL
+アプリ:  https://dreamer-app.vercel.app
+ <br >
+テストユーザーでログインから、ユーザー名とパスワードを入力せずにログインできます。
+ 
+https://qiita.com/Asami222/items/a8308737917947dfac74
+<br >
+Qiita記事：データ取得をサーバーコンポーネント→TanStack Query使用に変更しました。(その後一部サーバーコンポーネント取得に変更)
 
-## Learn More
+https://asami-portfolio.vercel.app/projects/dreamer-app
+<br>
+Dreamer詳細(ポートフォリオ内)
 
-To learn more about Next.js, take a look at the following resources:
+https://github.com/Asami222/dreamer
+<br>
+ブラッシュアップ前のアプリのREADME（アプリ自体は現在稼働していません）
+## 使用技術一覧
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+<!-- シールド一覧 -->
+<!-- 該当するプロジェクトの中から任意のものを選ぶ-->
+<p style="display: inline">
+  <!-- フロントエンドの言語一覧 -->
+  <img src="https://img.shields.io/badge/-typescript-000000?style=for-the-badge&logo=typescript&logoColor=FFE500">
+  <!-- フロントエンドのフレームワーク一覧 -->
+  <img src="https://img.shields.io/badge/-react-000000?style=for-the-badge&logo=react&logoColor=61DAFB">
+  <img src="https://img.shields.io/badge/-Next.js-000000.svg?logo=next.js&style=for-the-badge">
+  <img src="https://img.shields.io/badge/-prisma-000000.svg?logo=prisma&style=for-the-badge">
+  <img src="https://img.shields.io/badge/-supabase-000000.svg?logo=supabase&style=for-the-badge">
+  <img src="https://img.shields.io/badge/-tailwindcss-000000?style=for-the-badge&logo=tailwindcss&logoColor=0854C1">
+  <img src="https://img.shields.io/badge/-headlessui-000000?style=for-the-badge&logo=headlessui&logoColor=66E3FF">
+  <img src="https://img.shields.io/badge/-mui-000000?style=for-the-badge&logo=mui&logoColor=007FFF">
+  <img src="https://img.shields.io/badge/-storybook-000000?style=for-the-badge&logo=storybook&logoColor=FF4785">
+  <img src="https://img.shields.io/badge/-vitest-000000?style=for-the-badge&logo=vitest&logoColor=6E9F18">
+  <!-- バックエンドの言語一覧 -->
+  <!-- ミドルウェア一覧 -->
+  <!-- インフラ一覧 -->
+</p>
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 機能一覧
+- ユーザー認証、データ管理、画像アップロード ( Supabase Auth、Supabase Postgres、Supabase Storage )
+- ORM (Prisma)
+- データ取得・更新API ( Server Actions、route handler、server component)
+- APIデータクライアント状態管理（ TanStack Query ）
+- キャッシュコントロール (クライアント: invalidateQueries、サーバー: revalidateTag)
+## ブラッシュアップ前との違い
+(矢印前がブラッシュアップ前、矢印後が後)
+- ルーティング ( Pages Router  →  App Router )
+- CSS ( styled-components  →  Tailwind CSS )
+- DB ( Heroku  →  Supabase )
+- ストレージ ( なし  →  Supabase Storage )
+- データ取得 ( SWR・fetcher  →  route handler・fetcher / Server Actions / server component )
+- サーバー側バリデーション( json-server  →  フロントエンド側と共通のzodスキーマ )
+- 状態管理 ( useReducer&useContext → TanStack Query )
+<!-- 
+- ユーザー登録、ログイン機能(devise)
+- 投稿機能
+  - 画像投稿(refile)
+  - 位置情報検索機能(geocoder)
+- いいね機能(Ajax)
+  - ランキング機能
+- コメント機能(Ajax)
+- フォロー機能(Ajax)
+- ページネーション機能(kaminari)
+  - 無限スクロール(Ajax)
+- 検索機能(ransack)
+-->
+## テスト構成
+| 内容                         | ライブラリ・ツール                 |
+| --------------------------- | ------------------------------- |
+| Formのバリデーションチェック    | Zod　　                          |
+| UI確認&アクセシビリティチェック  | Storybook                       |
+| 単体テスト                    | vitest + @testing-library/react |
+| 結合テストまたはE2Eテスト       | PlayWright                      |
+  
 
-## Deploy on Vercel
+## 環境
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+<!-- 言語、フレームワーク、ミドルウェア、インフラの一覧とバージョンを記載 -->
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+| 言語・フレームワーク他 | バージョン |
+| --------------------- | ---------- |
+| Node.js               | v24.5.0    |
+| React                 | ^19.2.0     |
+| Next.js               | ^16.0.7     |
+| storybook             | ^9.1.15     |
+| prisma                | 6.19     |
+
+その他のパッケージのバージョンは package.json を参照してください. 
+
+
+## アプリ詳細
+
+<h3 align="center">UIの変更</h3>
+<p>
+Dreamerのアプリ内容により合わせるため、背景色やメニューのデザインをリキッドグラスに変更したりなど、透明感や軽さを出しました。
+</p>
+<p align="center">
+  <img src="https://raw.githubusercontent.com/Asami222/dreamer-app/main/public/git/1.webp" width="328" style="max-width: 100%;" />
+</p>
+<br />
+<h3 align="center">サーバー側とフロント側の共通のバリデーション</h3>
+<p>
+Server Actions内で、フロント側と共通のzodスキーマを利用することで、バリデーション内容の違いによるエラーを防いでいます。
+</p>
+<p align="center">
+  <img src="https://raw.githubusercontent.com/Asami222/dreamer-app/main/public/git/2.webp" width="328" style="max-width: 100%;" />
+</p>
+<br />
+<h3 align="center">パスワードリセットフォームの設置</h3>
+<p>
+前回はなかったパスワードリセットの設定を取り入れることで、UXを良くしました。
+</p>
+<p align="center">
+  <img src="https://raw.githubusercontent.com/Asami222/dreamer-app/main/public/git/3.webp" width="328" style="max-width: 100%;" />
+</p>
+<br />
+<h3 align="center">Storageの追加</h3>
+<p>
+Supabase Storageを利用し、ユーザーがストレージに画像をアップロードできるようにしました。前回では仮の画像を表示していましたが、今回は、ユーザーがアップロードした画像を表示できます。
+</p>
+<p align="center">
+  <img src="https://raw.githubusercontent.com/Asami222/dreamer-app/main/public/git/4.webp" width="328" style="max-width: 100%;" />
+</p>
+
+<p align="right">(<a href="#top">トップへ</a>)</p>

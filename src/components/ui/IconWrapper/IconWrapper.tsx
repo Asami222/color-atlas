@@ -25,7 +25,7 @@ const iconWrapperVariants = cva([
       },
       { variant: "default",
         active: true,
-        class: "bg-background-third",
+        class: "bg-neutral-950",
       },
       {
         variant: "sub",

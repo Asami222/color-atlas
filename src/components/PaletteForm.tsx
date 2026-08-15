@@ -6,8 +6,8 @@ import { IconLabel } from "@/components/ui/IconLabel"
 import { useAtomValue } from "jotai";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
 import { createPaletteAtom } from "@/store/createPalette";
-import { CreatePaletteState } from "@/store/createPalette";
-import { createColor } from "./action";
+import { createColor } from "@/components/create/CreatePaletteForm/action";
+import { editColor } from "@/components/mypage/edit/editAction";
 import { Dropdown } from "@/components/ui/Dropdown";
 import { Button } from "@/components/ui/Button";
 import { useState } from "react";
@@ -21,42 +21,49 @@ import { createSchema, type CreateSchema } from "@/libs/validations/schema";
 import { DateTimePicker } from "@/components/DateTimePicker";
 import { toast } from 'sonner';
 import { shapeMap } from "@/components/PaletteShape/type";
+import { PaletteUIModel } from "@/utils/transform";
+import { ShapeButton, type ShapeType } from "@/components/ui/ShapeButton/ShapeButton";
+import { CreatePaletteRequest, PaletteMutationResult, EditPaletteRequest, PaletteRequest } from "@/types/palette";
 
-export type CreatePaletteRequest = CreateSchema & CreatePaletteState
+export type PaletteFormProps = {
+  mode: "create" | "edit";
+  initialPalette?: PaletteUIModel;
+};
 
-export function CreatePaletteForm() {
+export function PaletteForm({ mode, initialPalette }: PaletteFormProps) {
   const {
       register,
       handleSubmit,
       control,
       setError,
-      getValues,
       setValue,
       reset,
       formState: { errors, isValid, isSubmitting },
     } = useForm<CreateSchema>({
       resolver: zodResolver(createSchema),
        defaultValues: {
-        placeId: "",
-        isDateEnabled: false,
-        date: new Date(),
-        hasTime: false,
+        placeId: initialPalette?.place.id ?? "",
+        memo: initialPalette?.memo ?? "",
+        isDateEnabled: !!initialPalette?.captureDate,
+        hasTime: initialPalette?.hasTime ?? false,
+        date : initialPalette?.captureDate ? new Date(initialPalette.captureDate) : new Date()
       },
       mode: "onChange",
     })
 
   const { data: places = []} = usePlaces()
   const [open, setOpen] = useState(false);
+
   const isDateEnabled = useWatch({
     control,
     name: "isDateEnabled",
   });
+
   const hasTime = useWatch({
     control,
     name: "hasTime",
-    defaultValue: false,
   });
-
+  
   const options = places.map((place) => ({
     value: place.id,
     label: place.name,
@@ -65,16 +72,27 @@ export function CreatePaletteForm() {
 const router = useRouter();
 const queryClient = useQueryClient();
 const createPalette = useAtomValue(createPaletteAtom);
-const ShapeComponent = shapeMap[createPalette.shape];
+const [selectedShape, setSelectedShape] = useState<ShapeType>(initialPalette?.shape || "grid");
+const shape = mode === "create" ? createPalette.shape : selectedShape;
+const colors = mode === "create" ? createPalette.colors : initialPalette?.colors ?? [];
+const ShapeComponent = shapeMap[shape];
 
-const mutation = useMutation({
-    mutationFn: createColor,
+
+const mutation = useMutation<PaletteMutationResult, Error, PaletteRequest>({
+    mutationFn: async (data) => {
+      if (mode === "create") {
+        return createColor(data as CreatePaletteRequest);
+      }
+      return editColor(data as EditPaletteRequest);
+    },
     onSuccess: async (result) => {
       if (!result.success) {
         if (result.message === "ログインが必要です") {
-          router.push("/login?callbackUrl=/create");
-          return;
-      }
+          router.push(mode === "create"
+          ? "/login?callbackUrl=/create"
+          : `/login?callbackUrl=/mypage/${initialPalette?.id}/edit`);
+                return;
+        }
       setError("root", {
         type: "server",
         message: result.message,
@@ -82,12 +100,21 @@ const mutation = useMutation({
       return;
       }
       await queryClient.invalidateQueries({
-        queryKey: ["createPalette"],
+        queryKey: ["palettes"],
       });
 
-      reset();
-      toast.success("カラーを保存しました");
-      router.push("/");
+      toast.success(
+        mode === "create"
+          ? "カラーを保存しました"
+          : "カラーを更新しました"
+      );
+      if (mode === "create") {
+        reset();
+        router.push("/");
+      } else {
+        router.push(`/mypage/${initialPalette?.id}`);
+        router.refresh();
+      }
     },
     onError: (error) => {
       setError("root", {
@@ -107,20 +134,30 @@ const handleCreated = (place: Place) => {
 const isDisabled = mutation.isPending || isSubmitting;
 
 const onSubmit = (data: CreateSchema) => {
-  /* test debug
-  console.log("submit");
-  console.log(data);
-  console.log(createPalette);
-  */
-    if (createPalette.colors.length === 0) {
+  console.log("submit data:", data);
+    if (mode === "create" && createPalette.colors.length === 0) {
       toast.error("ホームへ戻りカラーを作成し直してください");
       return;
     }
 
+    if (mode === "create") {
+      mutation.mutate({
+        ...data,
+        shape: createPalette.shape,
+        colors: createPalette.colors,
+      });
+      return;
+    }
+
+    if (!initialPalette) {
+      return;
+    }
+
     mutation.mutate({
-    ...data,
-    shape: createPalette.shape,
-    colors: createPalette.colors,
+      id: initialPalette.id,
+      ...data,
+      shape: selectedShape,
+      colors: initialPalette.colors,
   });
 }
 
@@ -131,9 +168,12 @@ const onSubmit = (data: CreateSchema) => {
         <IconLabel label="色彩" iconName="palette" htmlFor="colorData"/>
         <div className="flex justify-center items-end mx-auto w-full h-auto py-6 rounded-default bg-background-secondary">
         {ShapeComponent && (
-          <div className="w-50"><ShapeComponent colorData={createPalette.colors} /></div>
+          <div className="w-50"><ShapeComponent colorData={colors} /></div>
         )}
         </div>
+        {mode === "edit" && (
+          <div className="mx-auto mt-5"><ShapeButton selectedShape={selectedShape} onShapeChange={setSelectedShape}/></div>
+        )}
       </div>
       <div className="flex flex-col">
         <Controller
@@ -173,26 +213,19 @@ const onSubmit = (data: CreateSchema) => {
         <Controller
           control={control}
           name="date"
-          render={({ field }) => {
-            console.log("CreatePaletteForm → DateTimePicker", {
-              value: field.value,
-              hasTime,
-            });
-            return (
+          render={({ field }) => (
             <DateTimePicker
               value={field.value}
               hasTime={hasTime}
               onChange={field.onChange}
-              onHasTimeChange={(hasTime) =>{
-                console.log("CreatePaletteForm onHasTimeChange:", hasTime);
-              setValue("hasTime", hasTime, {
-                shouldValidate: true,
-                shouldDirty: true,
-              })
-            }}
+              onHasTimeChange={(hasTime) =>
+                setValue("hasTime", hasTime, {
+                  shouldValidate: true,
+                  shouldDirty: true,
+                })
+              }
             />
-            );
-          }}
+          )}
         />
       )}
       <div className="flex flex-col gap-2">
@@ -214,10 +247,10 @@ const onSubmit = (data: CreateSchema) => {
           size="Small"
           type="submit"   
           loading={mutation.isPending}
-          loadingText="送信中..."
-          disabled={isDisabled}
+          loadingText={mode === "create" ? "保存中..." : "更新中..."}
+          disabled={!isValid || isDisabled}
         >
-          作成
+          {mode === "create" ? "作成" : "更新"}
         </Button>
       </div>
       </div>

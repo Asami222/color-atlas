@@ -48,6 +48,7 @@ model Palette {
   colors      Json
   createdAt   DateTime @default(now())
   captureDate DateTime?
+  hasTime     Boolean  @default(false)
 }
 
 enum ShapeType {

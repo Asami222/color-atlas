@@ -5,13 +5,17 @@ import { TimePicker } from "./TimePicker/TimePicker";
 
 export type DateTimePickerProps = {
   value?: Date;
+  hasTime: boolean;
   onChange?: (value: Date | undefined) => void;
+  onHasTimeChange?: (hasTime: boolean) => void;
   disabled?: boolean;
 };
 
 export function DateTimePicker({
   value,
+  hasTime,
   onChange,
+  onHasTimeChange,
   disabled,
 }: DateTimePickerProps) {
   const handleDateChange = (date: Date | undefined) => {
@@ -22,25 +26,39 @@ export function DateTimePicker({
 
     const next = new Date(date);
 
-    if (value) {
-      next.setHours(value.getHours());
-      next.setMinutes(value.getMinutes());
-      next.setSeconds(0);
-      next.setMilliseconds(0);
+    if (value && hasTime) {
+      next.setHours(
+        value.getHours(),
+        value.getMinutes(),
+        0,
+        0
+      );
+    } else {
+      next.setHours(0, 0, 0, 0);
     }
 
     onChange?.(next);
   };
 
-  const handleHourChange = (hour: number) => {
-    const next = value ? new Date(value) : new Date();
+  const handleHourChange = (hour: number | undefined) => {
+    if (!value) return;
 
-    next.setHours(hour);
-    next.setMinutes(0);
-    next.setSeconds(0);
-    next.setMilliseconds(0);
+    const next = new Date(value);
+
+    if (hour === undefined) {
+      // 日付のみ
+      next.setHours(0, 0, 0, 0);
+
+      onChange?.(next);
+      onHasTimeChange?.(false);
+      return;
+    }
+
+    // 時刻あり
+    next.setHours(hour, 0, 0, 0);
 
     onChange?.(next);
+    onHasTimeChange?.(true);
   };
 
   return (
@@ -52,7 +70,7 @@ export function DateTimePicker({
       />
 
       <TimePicker
-        value={value?.getHours()}
+        value={hasTime ? value?.getHours() : undefined}
         onChange={handleHourChange}
         disabled={disabled}
       />

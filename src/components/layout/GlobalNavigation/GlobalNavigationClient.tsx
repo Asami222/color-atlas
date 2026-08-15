@@ -30,7 +30,7 @@ export function GlobalNavigationClient ({ isAuthenticated }: GlobalNavigationCli
   return (
     <nav aria-labelledby="global-navigation" className="flex bg-background-default fixed bottom-0 left-0 right-0 md:top-0 md:bottom-auto z-50 shadow-original-sp md:shadow-original" role="banner">
       <h2 id="global-navigation" className="sr-only">グローバルナビゲーション</h2>
-      <div className="flex w-full max-w-7xl justify-between items-center px-6 py-4">
+      <div className="flex w-full max-w-7xl justify-between items-center px-6 py-4 mx-auto">
         <div className="hidden md:block">
           <Logo />
         </div>

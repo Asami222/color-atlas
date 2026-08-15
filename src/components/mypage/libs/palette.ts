@@ -10,7 +10,7 @@ export async function getPalettes(userId: string) {
     redirect("/auth/login");
   }
 
-  return db.colorAtlas.findMany({
+  return db.palette.findMany({
     where: {
       userId,
     },

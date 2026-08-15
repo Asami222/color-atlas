@@ -3,7 +3,7 @@ import type { DynamicColorProps } from "../type";
 export function DynamicColorChip({ colorData }: DynamicColorProps) {
   return (
     <div 
-      className="grid grid-cols-3 gap-2 items-center"
+      className="grid grid-cols-3 gap-[3%] items-center"
       style={{
         width: `100%`,
         aspectRatio: `160/200`,

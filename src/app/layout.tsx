@@ -2,7 +2,6 @@
 import type { Metadata } from "next";
 import { notoSansJP, roboto } from "@/libs/fonts";
 import "./globals.css";
-import { Logo } from "@/components/ui/Logo";
 import { GlobalNavigation } from "@/components/layout/GlobalNavigation/GlobalNavigation";
 import { ReactQueryProvider } from "./providers";
 import { Toaster } from "sonner";
@@ -37,14 +36,7 @@ export default function RootLayout({
       <body>
         <ReactQueryProvider>
         <GlobalNavigation />
-        <div className="w-[94%] mx-auto max-w-143">
-            <div className="block md:hidden mt-5 mb-10 md:mt-0 md:mb-0">
-              <Logo />
-            </div>
-            <main className="w-full my-4 mx-auto px-4 pb-20 md:pt-20 md:pb-10">
-                {children}
-            </main>
-        </div>
+        {children}
         <Toaster position="top-center" richColors />
         </ReactQueryProvider>
       </body>

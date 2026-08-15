@@ -37,6 +37,7 @@ CREATE TABLE "Palette" (
     "colors" JSONB NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "captureDate" TIMESTAMP(3),
+    "hasTime" BOOLEAN NOT NULL DEFAULT false,
 
     CONSTRAINT "Palette_pkey" PRIMARY KEY ("id")
 );

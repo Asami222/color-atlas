@@ -1,5 +1,5 @@
 
-import { CreateColorAtlasForm } from "@/components/create/CreatePaletteForm";
+import { PaletteForm } from "@/components/PaletteForm";
 //import { redirect } from "next/navigation";
 
 
@@ -18,6 +18,6 @@ export default async function CreateColorAtlas() {
   */
 
   return (
-    <CreateColorAtlasForm />
+    <PaletteForm mode="create" />
   )
 }

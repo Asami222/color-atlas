@@ -4,23 +4,13 @@
 import { auth } from "@/libs/auth";
 import { db } from "@/libs/db";
 import { ShapeType } from "@prisma/client";
-import type { CreatePaletteRequest } from "./CreatePaletteForm";
+import type { CreatePaletteRequest, PaletteMutationResult } from "@/types/palette";
 import { createSchema } from "@/libs/validations/schema";
 import { revalidatePath } from "next/cache";
 
-type CreatePaletteResult =
-  | {
-      success: true;
-    }
-  | {
-      success: false;
-      message: string;
-      code?: string
-    };
-
 export async function createColor(
   data: CreatePaletteRequest,
-) : Promise<CreatePaletteResult>{
+) : Promise<PaletteMutationResult>{
   const session = await auth();
 
   if (!session?.user?.id) {
@@ -61,6 +51,9 @@ export async function createColor(
         values.isDateEnabled && values.date
           ? values.date
           : null,
+      hasTime: data.isDateEnabled
+          ? data.hasTime
+          : false,
     },
   });
 

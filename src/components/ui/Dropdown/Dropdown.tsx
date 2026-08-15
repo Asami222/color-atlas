@@ -61,7 +61,8 @@ export type DropdownProps = {
   required?: boolean;
   onChange?: (value: string) => void;
   className?: string;
-  htmlFor?: string
+  htmlFor?: string;
+  emptyText?: string;
 };
 
 export function Dropdown({
@@ -76,6 +77,7 @@ export function Dropdown({
   required,
   onChange,
   htmlFor,
+  emptyText = "選択肢がありません",
   className,
 }: DropdownProps) {
   const state =
@@ -122,7 +124,7 @@ export function Dropdown({
           )}
         >
           <Select.Value
-            placeholder={ options.length === 0 ? "登録された場所がありません" : placeholder}
+            placeholder={ options.length === 0 ? emptyText : placeholder}
           />
           <Select.Icon>
             <Icon name="keyboard_arrow_down" />

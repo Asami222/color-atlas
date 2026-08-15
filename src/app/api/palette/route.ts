@@ -2,8 +2,8 @@
 import { getPalettes } from "@/components/create/libs/color";
 
 export async function GET() {
+
+    const palettes = await getPalettes()
   
-    const colors = await getPalettes()
-  
-  return Response.json(colors);
+  return Response.json(palettes);
  }

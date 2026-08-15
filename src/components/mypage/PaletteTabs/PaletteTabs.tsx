@@ -3,9 +3,13 @@ import { PaletteTabList } from "./PaletteTabList";
 import { PaletteContent } from "./PaletteContent";
 import type { PaletteUIModel } from "@/utils/transform";
 
-export function PaletteTabs({
-  palettes
-}: {palettes: PaletteUIModel[]}) {
+type PaletteTabsProps = {
+  palettes: PaletteUIModel[];
+  search?: boolean
+}
+
+export function PaletteTabs({ palettes, search = false}: PaletteTabsProps) {
+  
   return (
     <Tabs.Root
       defaultValue="large"
@@ -17,18 +21,21 @@ export function PaletteTabs({
         value="large"
         palettes={palettes}
         columns={1}
+        search={search}
       />
 
       <PaletteContent
         value="middle"
         palettes={palettes}
         columns={2}
+        search={search}
       />
 
       <PaletteContent
         value="small"
         palettes={palettes}
         columns={3}
+        search={search}
       />
     </Tabs.Root>
   );
