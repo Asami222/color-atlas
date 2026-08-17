@@ -30,7 +30,7 @@ export default function RootLayout({
         />
         <link
           rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=account_circle,account_circle_off,calendar_clock,calendar_month,check,close_small,edit_note,help,home,image_arrow_up,keyboard_arrow_down,landscape_2,login,logout,palette,robot,robot_2,schedule,search,smart_toy&display=block"
+          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=account_circle,account_circle_off,calendar_clock,calendar_month,check,check_small,close_small,edit_note,help,home,image_arrow_up,keyboard_arrow_down,landscape_2,login,logout,palette,robot,robot_2,schedule,search,smart_toy&display=block"
         />
       </head>
       <body>

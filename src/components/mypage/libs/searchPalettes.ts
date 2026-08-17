@@ -56,12 +56,18 @@ export async function searchPalettes({
     // → 15:00〜15:59:59
     // --------------------------------
 
+    const hour = time.padStart(2, "0");
+
     const start = new Date(
-      `${date}T${time}:00+09:00`
+      `${date}T${hour}:00+09:00`
     );
 
+    if (Number.isNaN(start.getTime())) {
+      throw new Error(`Invalid date/time: ${date} ${time}`);
+    }
+
     const end = new Date(start);
-    end.setUTCHours(end.getUTCHours() + 1);
+    end.setTime(end.getTime() + 60 * 60 * 1000);
 
     captureDate = {
       gte: start,

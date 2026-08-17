@@ -106,10 +106,14 @@ export function SearchPaletteForm({palettes}: SearchPaletteFormProps) {
     )
   )
     .sort((a, b) => a - b)
-    .map((hour) => ({
-      value: String(hour),
-      label: `${String(hour).padStart(2, "0")}時`,
-    })),
+    .map((hour) => {
+      const value = String(hour).padStart(2, "0");
+
+      return {
+        value,
+        label: `${value}時`,
+      };
+    }),
 ];
 
   const onSubmit = (data: SearchSchema) => {
@@ -122,7 +126,7 @@ export function SearchPaletteForm({palettes}: SearchPaletteFormProps) {
     }
 
     if (data.time !== "all") {
-      params.set("time", data.time);
+      params.set("time", data.time.padStart(2, "0"));
     }
 
     router.push(`/mypage/search/result?${params.toString()}`);
