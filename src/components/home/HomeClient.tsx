@@ -74,7 +74,7 @@ export function HomeClient() {
           min={2}
           max={40} // 2〜40色程度にしておくとUI的にも扱いやすいです
         />
-        <div className="flex items-center justify-center mx-auto w-84 h-63 md:w-104 md:h-78 rounded-default border-2 border-dashed border-disabled bg-background-secondary">
+        <div className="flex items-center justify-center mx-auto w-84 h-63 md:w-104 md:h-78 rounded-default border-2 border-dashed border-amber-300 bg-background-secondary">
         {ShapeComponent && (
           <div className="w-50"><ShapeComponent colorData={palette} /></div>
         )}

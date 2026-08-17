@@ -29,7 +29,7 @@ export function LoginFormContainer() {
       router.replace(result.url) // ログイン成功後に 前のページまたはホーム へ
       router.refresh();
     } else {
-      toast.error(result.error || "ログインに失敗しました");
+      toast.error(`${result.error}\nログインに失敗しました`);
     }
     } catch(err: unknown) {
       if(err instanceof Error) {

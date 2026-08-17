@@ -86,7 +86,7 @@ const mutation = useMutation({
       });
 
       reset();
-      toast.success("カラーを保存しました");
+      toast.success("パレットを保存しました");
       router.push("/");
     },
     onError: (error) => {
@@ -113,7 +113,7 @@ const onSubmit = (data: CreateSchema) => {
   console.log(createPalette);
   */
     if (createPalette.colors.length === 0) {
-      toast.error("ホームへ戻りカラーを作成し直してください");
+      toast.error("ホームへ戻りパレットを作成し直してください");
       return;
     }
 

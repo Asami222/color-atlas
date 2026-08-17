@@ -125,7 +125,7 @@ export function SignupForm ({ onSignup, onGoogleLogin, onGitHubLogin, loadingMet
               label={
                 <>
                   <Link
-                    href="/terms"
+                    href="/auth/terms"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="underline hover:text-primary"
@@ -134,7 +134,7 @@ export function SignupForm ({ onSignup, onGoogleLogin, onGitHubLogin, loadingMet
                   </Link>
                   {" および "}
                   <Link
-                    href="/privacy"
+                    href="/auth/privacy"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="underline hover:text-primary"

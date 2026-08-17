@@ -16,7 +16,7 @@ const dropzoneVariants = cva(
   {
     variants: {
       state: {
-        default: "border-disabled",
+        default: "border-amber-300",
         dragActive: "border-border-default",
         error: "border-border-error",
         disabled:

@@ -7,7 +7,7 @@ export const metadata = createMetadata({
     path: "/terms",
 });
 */
-export default function Privacy() {
+export function Privacy() {
     return (
           <article className="mx-auto max-w-4xl space-y-8 px-6 py-12">
             <Heading level={1}>プライバシーポリシー</Heading>
