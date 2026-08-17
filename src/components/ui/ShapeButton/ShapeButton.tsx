@@ -60,7 +60,7 @@ const ShapeMap = {
 
 export type ShapeType = keyof typeof ShapeMap;
 
-interface ShapeButtonProps {
+export interface ShapeButtonProps {
   selectedShape: ShapeType;
   onShapeChange: (shape: ShapeType) => void;
 }

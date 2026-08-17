@@ -5,9 +5,6 @@ const meta: Meta<typeof GlobalNavigationClient> = {
   title: "Components/Layout/GlobalNavigation",
   component: GlobalNavigationClient,
   tags: ["autodocs"],
-  argTypes: {
-    onLogout: { action: "onLogout" },
-  },
 };
 
 export default meta;

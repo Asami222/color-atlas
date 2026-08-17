@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/Button";
 
-type ExpiredResetLinkProps = {
+export type ExpiredResetLinkProps = {
   onForgotPassword: () => void;
   onLogin: () => void;
 };

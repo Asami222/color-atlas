@@ -6,13 +6,11 @@ const meta: Meta<typeof ShapeButton> = {
   component: ShapeButton,
   tags: ["autodocs"],
   argTypes: {
-    shape: {
+    selectedShape: {
       control: { type: "radio" },
       options: ["grid", "chips", "column"],
     },
-    selected: { control: "boolean" },
-    label: { control: "text" },
-    onClick: { action: "clicked" },
+    onShapeChange: { action: "clicked" },
   },
 }
 
@@ -22,45 +20,34 @@ type Story = StoryObj<typeof ShapeButton>
 
 export const Default: Story = {
   args: {
-    shape: "grid",
-    selected: false,
-    label: "Grid view",
+    selectedShape: "grid",
   },
 }
 
 export const Chips: Story = {
   args: {
-    shape: "chips",
-    selected: false,
-    label: "Chips view",
+    selectedShape: "chips",
   },
 }
 
 export const Column: Story = {
   args: {
-    shape: "column",
-    selected: false,
-    label: "Column view",
+    selectedShape: "column",
   },
 }
 
 export const Selected: Story = {
   args: {
-    shape: "grid",
-    selected: true,
-    label: "Selected grid",
+    selectedShape: "grid",
   },
 }
 
 export const AllShapes: Story = {
   render: (args) => (
     <div className="flex gap-3">
-      <ShapeButton {...args} shape="grid" label="Grid view" />
-      <ShapeButton {...args} shape="chips" label="Chips view" />
-      <ShapeButton {...args} shape="column" label="Column view" />
+      <ShapeButton {...args} selectedShape="grid" />
+      <ShapeButton {...args} selectedShape="chips" />
+      <ShapeButton {...args} selectedShape="column" />
     </div>
   ),
-  args: {
-    selected: false,
-  },
 }

@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { toast } from "sonner";
-import { ExpiredResetLink } from "@/components/auth/ResetPasswordForm/ExpiredResetLink";
+import { ExpiredResetLinkContainer } from "@/components/auth/ResetPasswordForm/ExpiredResetLink";
 import { ResetPasswordFormContainer } from "@/components/auth/ResetPasswordForm/ResetPasswordForm/ResetPasswordFormContainer";
 
 
@@ -43,7 +43,7 @@ export function ResetPasswordClient() {
 
   if (expired) {
 
-    return <ExpiredResetLink />;
+    return <ExpiredResetLinkContainer />;
   }
 
   const handleReset = async (err?: Error) => {

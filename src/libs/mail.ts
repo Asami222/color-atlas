@@ -14,7 +14,7 @@ export async function sendResetPasswordEmail(
   await resend.emails.send({
     from: "Color Atlas <onboarding@resend.dev>",
     //to: email,
-    to: 'asa2_pokecho@icloud.com',
+    to: email,
     subject: "パスワード再設定",
     html: `
       <h2>パスワード再設定</h2>

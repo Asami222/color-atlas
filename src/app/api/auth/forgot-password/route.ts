@@ -12,10 +12,10 @@ try {
 
   // 存在しなくても同じレスポンスを返す
   if (!user) {
-    return {
-      message: "登録されている場合、パスワード再設定メールを送信しました",
-    };
-  }
+  return NextResponse.json({
+    message: "登録されている場合、パスワード再設定メールを送信しました",
+  });
+}
 
   // ② ランダムトークン生成
   const token = crypto.randomUUID();
