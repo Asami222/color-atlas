@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite"
-import Terms from "./Terms"
+import { Terms } from "./Terms"
 
 const meta: Meta<typeof Terms> = {
   title: "Components/Auth/Terms",

@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite"
-import Privacy from "./Privacy"
+import { Privacy } from "./Privacy"
 
 const meta: Meta<typeof Privacy> = {
   title: "Components/Auth/privacy",
