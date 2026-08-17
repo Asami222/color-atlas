@@ -6,7 +6,7 @@ type Props = {
   icon: IconName;
 };
 
-export function MessageChip({ message }: Props) {
+export function MessageChip({ message, icon }: Props) {
   return (
     <div
       className="
@@ -17,7 +17,7 @@ export function MessageChip({ message }: Props) {
         shadow-md
       "
     >
-      <Icon name="robot_2" />
+      <Icon name={icon} />
 
       <p className="text-xs">
         {message}
