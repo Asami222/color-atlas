@@ -2,6 +2,7 @@
 import NextAuth from "next-auth";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { db } from "./db";
+import authConfig from "./auth.config";
 import GoogleProvider from "next-auth/providers/google"
 import GitHub from "next-auth/providers/github";
 import CredentialsProvider from "next-auth/providers/credentials"
@@ -9,6 +10,7 @@ import { loginSchema } from "./validations/authSchema";
 import { compare } from "bcryptjs"
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
+  ...authConfig,
   // Prismaアダプターを設定
   adapter: PrismaAdapter(db),
   
