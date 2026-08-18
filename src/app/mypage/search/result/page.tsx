@@ -1,6 +1,14 @@
+import type { Metadata } from "next";
+import { createMetadata } from "@/libs/metadata";
 import { searchPalettes } from "@/components/mypage/libs/searchPalettes";
 import { redirect } from "next/navigation";
 import { PaletteTabs } from "@/components/mypage/PaletteTabs/PaletteTabs";
+
+export const metadata: Metadata = createMetadata({
+    title: "パレット検索結果",
+    description: "検索したパレットの結果を表示します",
+    path: "/mypage/search/result",
+});
 
 export default async function SearchResultPage({
   searchParams,

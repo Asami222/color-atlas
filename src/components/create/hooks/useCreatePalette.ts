@@ -1,7 +1,7 @@
 "use client";
 
 import { useQuery } from '@tanstack/react-query'
-import type { CreatePaletteRequest } from '../CreatePaletteForm';
+import { CreatePaletteRequest } from "@/types/palette";
 
 
 export const useCreateColor = () => {

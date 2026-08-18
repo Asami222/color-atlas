@@ -1,21 +1,14 @@
+import type { Metadata } from "next";
+import { createMetadata } from "@/libs/metadata";
+import { PaletteForm } from "@/components/create/PaletteForm/PaletteForm";
 
-import { PaletteForm } from "@/components/PaletteForm";
-//import { redirect } from "next/navigation";
-
+export const metadata: Metadata = createMetadata({
+    title: "パレット登録",
+    description: "生成したカラーパレットを登録します",
+    path: "/create",
+});
 
 export default async function CreateColorAtlas() {
-  /*
-  const session = await auth();
-
-  if (!session) {
-    throw new Error("Unauthorized");
-    //notFound();
-  }
-  
-  if (!session?.user?.id) {
-    redirect("/login");
-  }
-  */
 
   return (
     <PaletteForm mode="create" />

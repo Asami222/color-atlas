@@ -4,7 +4,7 @@ import { createMetadata } from "@/libs/metadata";
 
 export const metadata: Metadata = createMetadata({
   title: "パスワード再発行",
-  description: "入力メールアドレスにパスワード再設定メールを送信します",
+  description: "登録済のメールアドレスにパスワード再設定メールを送信します",
   path: "/auth/forgot-password",
 });
 

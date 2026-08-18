@@ -78,7 +78,8 @@ export function Dropzone({
         onChange={(e) => {
           onChange?.(e.target.files?.[0] ?? null);
         }} />
-      <div>
+      <div className="text-center">
+      <p className="text-teal-300 text-sm">ファイルを選択</p>
       <Icon name="image_arrow_up" size="xxl" color="upload"/>
       </div>
     </label>
