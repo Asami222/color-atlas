@@ -116,6 +116,7 @@ body {
   /* shadow */
   --shadow-original: 0 4px 6px -4px rgba(244, 235, 197, 1);
   --shadow-original-sp: 0 -4px 6px -4px rgba(244, 235, 197, 1);
+  --shadow-chip: 0 2px 4px -2px rgba(185, 115, 67, 1);
 }
 
 body {

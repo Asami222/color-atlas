@@ -55,7 +55,7 @@ export function HomeClient() {
       <div className="flex flex-col items-center justify-center gap-14 my-4">
         <InputImage 
           hasError={false}
-          className="w-84 h-63 md:w-104 md:h-78"
+          className="w-full aspect-4/3"
           onChange={async (file) => {
           if (!file) {
             setPalette([]);
@@ -74,7 +74,7 @@ export function HomeClient() {
           min={2}
           max={40} // 2〜40色程度にしておくとUI的にも扱いやすいです
         />
-        <div className="flex items-center justify-center mx-auto w-84 h-63 md:w-104 md:h-78 rounded-default border-2 border-dashed border-amber-300 bg-background-secondary">
+        <div className="flex items-center justify-center mx-auto w-full aspect-4/3 max-w-104 max-h-78 rounded-default border-2 border-dashed border-amber-300 bg-background-secondary p-4">
         {ShapeComponent && (
           <div className="w-50"><ShapeComponent colorData={palette} /></div>
         )}

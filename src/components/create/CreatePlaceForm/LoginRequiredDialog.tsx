@@ -17,11 +17,12 @@ export function LoginRequiredDialog({onOpenChange, open, onLogin, onSignup}: Log
       title="ログインが必要です"
       description="場所を保存するにはログインまたは新規登録が必要です。"
       footer={
-        <>
+        <div className="flex gap-1">
           <Button
             size="Small"
             variant="Outline"
             onClick={() => onOpenChange(false)}
+            className="text-sm md:text-base"
           >
             キャンセル
           </Button>
@@ -30,6 +31,7 @@ export function LoginRequiredDialog({onOpenChange, open, onLogin, onSignup}: Log
             size="Small"
             variant="Outline"
             onClick={onSignup}
+            className="text-sm md:text-base"
           >
             新規登録
           </Button>
@@ -37,10 +39,11 @@ export function LoginRequiredDialog({onOpenChange, open, onLogin, onSignup}: Log
           <Button
             size="Small"
             onClick={onLogin}
+            className="text-sm md:text-base"
           >
             ログイン
           </Button>
-        </>
+        </div>
       }
     />
   )

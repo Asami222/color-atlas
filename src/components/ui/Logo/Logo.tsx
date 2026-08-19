@@ -1,11 +1,11 @@
 import Link from "next/link";
 import Image from "next/image";
-import logo from "../../../../public/svg/testlogo.svg"
+import logo from "../../../../public/svg/logo.svg"
 
 export function Logo () {
   return (
     <Link href="/">
-      <div className="w-40 mx-auto">
+      <div className="w-36.5 mx-auto">
         <Image
           quality="75"
           src={logo}

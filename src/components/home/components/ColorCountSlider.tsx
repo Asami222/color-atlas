@@ -20,7 +20,7 @@ export function ColorCountSlider({
   return (
     <div className="flex flex-col gap-2 w-full max-w-xs">
       <div className="flex justify-between text-sm text-neutral-600 font-medium">
-        <Tooltip content="欲しい色がない場合に" side="bottom">
+        <Tooltip content="抽出できる色の最大数です。色数が多いほど、より細かい色の違いを抽出できます。" side="bottom">
         <div className="inline-flex justify-center items-center gap-1">
         <span>抽出する最大色数</span>
         

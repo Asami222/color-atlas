@@ -14,7 +14,7 @@ export function MessageChip({ message, icon }: Props) {
         rounded-default
         bg-background-default
         px-3 py-2
-        shadow-md
+        shadow-chip
       "
     >
       <Icon name={icon} />

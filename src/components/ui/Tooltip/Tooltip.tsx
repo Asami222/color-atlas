@@ -1,4 +1,7 @@
+"use client";
+
 import * as TooltipPrimitive from "@radix-ui/react-tooltip";
+import { useState } from "react";
 
 export type TooltipProps = {
   content: string;
@@ -11,10 +14,21 @@ export function Tooltip({
   side,
   children,
 }: TooltipProps) {
+
+  const [open, setOpen] = useState(false);
+
   return (
     <TooltipPrimitive.Provider>
-      <TooltipPrimitive.Root>
-        <TooltipPrimitive.Trigger asChild>
+      <TooltipPrimitive.Root open={open} onOpenChange={setOpen}>
+        <TooltipPrimitive.Trigger
+         asChild
+         onPointerDown={(e) => {
+            if (e.pointerType === "touch") {
+              e.preventDefault();
+              setOpen((prev) => !prev);
+            }
+          }}
+        >
           {children}
         </TooltipPrimitive.Trigger>
 
@@ -23,6 +37,8 @@ export function Tooltip({
             side={side}
             sideOffset={8}
             className="
+              z-50
+              max-w-70
               rounded-md
               bg-neutral-950
               px-3
