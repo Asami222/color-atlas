@@ -17,7 +17,7 @@ export function LoginRequiredDialog({onOpenChange, open, onLogin, onSignup}: Log
       title="ログインが必要です"
       description="場所を保存するにはログインまたは新規登録が必要です。"
       footer={
-        <div className="flex gap-1">
+        <div className="flex gap-2">
           <Button
             size="Small"
             variant="Outline"

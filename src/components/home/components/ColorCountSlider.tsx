@@ -1,6 +1,7 @@
 import * as SliderPrimitive from "@radix-ui/react-slider";
 import { Icon } from "@/components/ui/Icon";
 import { Tooltip } from "@/components/ui/Tooltip";
+import { HelpPopover } from "@/components/ui/HelpPopover";
 
 type ColorCountSliderProps = {
   value: number;
@@ -20,14 +21,24 @@ export function ColorCountSlider({
   return (
     <div className="flex flex-col gap-2 w-full max-w-xs">
       <div className="flex justify-between text-sm text-neutral-600 font-medium">
-        <Tooltip content="抽出できる色の最大数です。色数が多いほど、より細かい色の違いを抽出できます。" side="bottom">
         <div className="inline-flex justify-center items-center gap-1">
         <span>抽出する最大色数</span>
-        
-          <Icon name="help" size="sm" color="help" className="cursor-pointer"/>
-        
+          <HelpPopover
+            content="抽出できる色の最大数です。色数が多いほど、より細かい色の違いを抽出できます。コントラストや彩度が高く、はっきりした色合いの写真ほど色を上手く抽出できます"
+          >
+            <button
+              type="button"
+              aria-label="抽出する最大色数について"
+              className="inline-flex items-center justify-center cursor-pointer"
+            >
+              <Icon
+                name="help"
+                size="sm"
+                color="help"
+              />
+            </button>
+          </HelpPopover>
         </div>
-        </Tooltip>
         <span className="font-bold text-neutral-900">{value} 色</span>
       </div>
       
