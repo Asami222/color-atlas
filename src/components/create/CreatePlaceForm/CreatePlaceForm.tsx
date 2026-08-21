@@ -128,7 +128,7 @@ const {
       open={open}
       onOpenChange={onOpenChange}
       title="新しい場所"
-      description="場所を追加します"
+      description="場所またはカテゴリーを追加します"
       footer={
         <>
           <Button

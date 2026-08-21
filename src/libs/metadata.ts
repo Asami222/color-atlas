@@ -25,7 +25,7 @@ export function createMetadata({
       siteName: SITE_NAME,
       images: [
         {
-          url: `${SITE_URL}/ogp.webp`, // ← 固定OGP
+          url: `${SITE_URL}/ogp.jpg`, // ← 固定OGP
           width: 1200,
           height: 630,
         },
@@ -36,7 +36,7 @@ export function createMetadata({
       card: "summary_large_image",
       title: fullTitle,
       description: desc,
-      images: [`${SITE_URL}/ogp.webp`], // ← 固定OGP
+      images: [`${SITE_URL}/ogp.jpg`], // ← 固定OGP
     },
     alternates: {
       canonical: url,
