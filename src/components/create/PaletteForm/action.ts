@@ -25,7 +25,7 @@ export async function createColor(
     return {
       success: false,
       code: "UNAUTHORIZED",
-      message: "カラー情報がありません。ホームへ戻りカラーを作成してください。"
+      message: "パレット情報がありません。ホームへ戻りカラーパレットを作成してください。"
     };
   }
 

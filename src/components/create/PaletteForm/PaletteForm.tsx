@@ -106,8 +106,8 @@ const mutation = useMutation<PaletteMutationResult, Error, PaletteRequest>({
 
       toast.success(
         mode === "create"
-          ? "カラーを保存しました"
-          : "カラーを更新しました"
+          ? "パレットを保存しました"
+          : "パレットを更新しました"
       );
       if (mode === "create") {
         reset();
@@ -137,7 +137,7 @@ const isDisabled = mutation.isPending || isSubmitting;
 const onSubmit = (data: CreateSchema) => {
   console.log("submit data:", data);
     if (mode === "create" && createPalette.colors.length === 0) {
-      toast.error("ホームへ戻りカラーを作成し直してください");
+      toast.error("ホームへ戻りカラーパレットを作成し直してください");
       return;
     }
 

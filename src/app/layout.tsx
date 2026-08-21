@@ -5,6 +5,7 @@ import "./globals.css";
 import { GlobalNavigation } from "@/components/layout/GlobalNavigation/GlobalNavigation";
 import { ReactQueryProvider } from "./providers";
 import { Toaster } from "sonner";
+import { GoogleAnalytics } from "@/components/analytics/GoogleAnalytics";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -39,6 +40,7 @@ export default function RootLayout({
         {children}
         <Toaster position="top-center" richColors />
         </ReactQueryProvider>
+        <GoogleAnalytics />
       </body>
     </html>
   );

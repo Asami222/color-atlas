@@ -66,7 +66,7 @@ body {
   --color-text-placeholder: var(--color-neutral-500);
   --color-text-error: #9F0712;
   --color-text-disabled: var(--color-neutral-400);
-  --color-text-upload: var(--color-teal-200);
+  --color-text-upload: var(--color-teal-400);
   --color-text-place-title: #612B23;
   
   /* border*/
