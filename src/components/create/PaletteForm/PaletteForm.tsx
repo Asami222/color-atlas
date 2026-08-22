@@ -250,15 +250,17 @@ const onSubmit = (data: CreateSchema) => {
     <div className="flex flex-col gap-10">
       <div className="flex flex-col gap-2">
         <IconLabel label="色彩" iconName="palette" htmlFor="colorData"/>
-        <div className="flex justify-center items-end mx-auto w-full h-auto py-6 rounded-default bg-background-secondary">
-        {ShapeComponent ? (
-          <div className="w-50"><ShapeComponent colorData={colors} /></div>
-        ):(
-          <Spinner
-            size={24}
-            color="var(--color-border-disabled)"
-          />
-        )
+        <div className="flex justify-center items-center mx-auto w-full min-h-62 py-6 rounded-default bg-background-secondary">
+        {isRestoring ? (
+            <Spinner
+              size={24}
+              color="var(--color-border-disabled)"
+            />
+          ) : ShapeComponent ? (
+            <div className="w-50">
+              <ShapeComponent colorData={colors} />
+            </div>
+          ) : null
         }
         </div>
         {mode === "edit" && (
