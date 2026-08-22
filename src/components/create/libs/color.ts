@@ -23,9 +23,10 @@ export async function getPalettes() {
 }
 
 export async function getPalette(id: string) {
+  
  const session = await auth();
 
-   const palette = await db.palette.findUnique({
+  const palette = await db.palette.findUnique({
      where: {
        id: id,
        userId: session!.user.id,
@@ -39,7 +40,9 @@ export async function getPalette(id: string) {
      throw new Error("Palette not found");
    }
 
-   return toPaletteUI(palette);
+   const result = toPaletteUI(palette);
+
+   return result
 }
 
   

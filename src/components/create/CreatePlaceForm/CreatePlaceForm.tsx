@@ -104,7 +104,7 @@ const {
   }
 
   const handleLogin = () => {
-    console.log("save", getValues("text"));
+    //console.log("save", getValues("text"));
     sessionStorage.setItem(
       "pending-place",
       getValues("text")
