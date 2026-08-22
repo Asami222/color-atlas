@@ -21,11 +21,12 @@ export type Place = {
 export interface CreatePlaceFormProps {
   onCreated: (place: Place) => void
   onOpenChange: (open: boolean) => void
+  onBeforeLogin: (placeName: string) => void
   open: boolean
   isLoading?: boolean;
 }
 
-export function CreatePlaceForm({ open, onOpenChange, onCreated, isLoading }: CreatePlaceFormProps) {
+export function CreatePlaceForm({ open, onOpenChange, onCreated, onBeforeLogin, isLoading }: CreatePlaceFormProps) {
 
 const {
     register,
@@ -44,22 +45,10 @@ const {
   const queryClient = useQueryClient();
   //const value = getValues("text");
   const [loginDialogOpen, setLoginDialogOpen] = useState(false);
-  
-  useEffect(() => {
-    if (!open) return;
-    const saved = sessionStorage.getItem("pending-place");
-    console.log("restore", saved);
-    if (saved) {
-      setValue("text", saved, {
-        shouldValidate: true,
-      });
-      sessionStorage.removeItem("pending-place");
-    }
-  }, [open, setValue]);
 
   const mutation = useMutation({
     mutationFn: createPlace,
-    onSuccess: (result) => {
+    onSuccess: async (result) => {
       if (!result.success) {
         if (result.message === "ログインが必要です") {
           setLoginDialogOpen(true);
@@ -73,7 +62,7 @@ const {
       });
       return;
       }
-      queryClient.invalidateQueries({
+      await queryClient.invalidateQueries({
         queryKey: ["places"],
       });
 
@@ -105,19 +94,13 @@ const {
 
   const handleLogin = () => {
     //console.log("save", getValues("text"));
-    sessionStorage.setItem(
-      "pending-place",
-      getValues("text")
-    );
+    onBeforeLogin(getValues("text"));
 
     router.push("/auth/login?callbackUrl=/create");
   };
 
   const handleSignup = () => {
-    sessionStorage.setItem(
-      "pending-place",
-      getValues("text")
-    );
+    onBeforeLogin(getValues("text"));
 
     router.push("/auth/signup?callbackUrl=/create");
   };

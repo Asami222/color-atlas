@@ -3,14 +3,14 @@
 import { useForm, Controller, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { IconLabel } from "@/components/ui/IconLabel"
-import { useAtomValue } from "jotai";
+import { useAtomValue, useSetAtom } from "jotai";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
 import { createPaletteAtom } from "@/store/createPalette";
 import { createColor } from "@/components/create/PaletteForm/action";
 import { editColor } from "@/components/mypage/edit/editAction";
 import { Dropdown } from "@/components/ui/Dropdown";
 import { Button } from "@/components/ui/Button";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation"
 import { Place } from "@/components/create/CreatePlaceForm";
 import { CreatePlaceForm } from "@/components/create/CreatePlaceForm";
@@ -24,7 +24,8 @@ import { shapeMap } from "@/components/PaletteShape/type";
 import { PaletteUIModel } from "@/utils/transform";
 import { ShapeButton, type ShapeType } from "@/components/ui/ShapeButton/ShapeButton";
 import { CreatePaletteRequest, PaletteMutationResult, EditPaletteRequest, PaletteRequest } from "@/types/palette";
-
+import { PendingCreateData } from "./type";
+import { createPlace } from "@/components/create/CreatePlaceForm/action";
 
 export type PaletteFormProps = {
   mode: "create" | "edit";
@@ -71,13 +72,79 @@ export function PaletteForm({ mode, initialPalette }: PaletteFormProps) {
   })); 
 
 const router = useRouter();
+const [isRestoring, setIsRestoring] = useState(false);
 const queryClient = useQueryClient();
 const createPalette = useAtomValue(createPaletteAtom);
+const setCreatePalette = useSetAtom(createPaletteAtom);
 const [selectedShape, setSelectedShape] = useState<ShapeType>(initialPalette?.shape || "grid");
 const shape = mode === "create" ? createPalette.shape : selectedShape;
 const colors = mode === "create" ? createPalette.colors : initialPalette?.colors ?? [];
 const ShapeComponent = shapeMap[shape];
 
+useEffect(() => {
+  const saved = sessionStorage.getItem("pending-create");
+
+  if (!saved) {
+    return;
+  }
+
+  const restore = async () => {
+    setIsRestoring(true);
+    try {
+      const pending: PendingCreateData = JSON.parse(saved);
+
+      // Palette復元
+      if (pending.palette) {
+        setCreatePalette({
+          shape: pending.palette.shape,
+          colors: pending.palette.colors,
+        });
+      }
+
+      // Place復元
+      if (pending.placeName) {
+        const result = await createPlace(pending.placeName);
+
+        if (result.success) {
+          queryClient.setQueryData<Place[]>(
+            ["places"],
+            (old = []) => {
+              if (old.some((place) => place.id === result.place.id)) {
+                return old;
+              }
+              return [...old, result.place];
+            }
+          );
+          setValue("placeId", result.place.id, {
+            shouldValidate: true,
+            shouldDirty: true,
+          });
+        } else if (result.message === "その場所は既に登録されています") {
+          
+        } else {
+          console.error(
+            "場所の復元に失敗しました:",
+            result.message
+          );
+        }
+      }
+      sessionStorage.removeItem("pending-create");
+    } catch (error) {
+      console.error(
+        "ログイン後の作成状態復元に失敗しました",
+        error
+      );
+    } finally {
+      setIsRestoring(false);
+    }
+  };
+
+  restore();
+}, [
+  queryClient,
+  setCreatePalette,
+  setValue,
+]);
 
 const mutation = useMutation<PaletteMutationResult, Error, PaletteRequest>({
     mutationFn: async (data) => {
@@ -132,7 +199,22 @@ const handleCreated = (place: Place) => {
     setValue("placeId", place.id);
 };
 
-const isDisabled = mutation.isPending || isSubmitting;
+const handleBeforeLogin = (placeName: string) => {
+  const pending: PendingCreateData = {
+    palette: {
+      shape: createPalette.shape,
+      colors: createPalette.colors,
+    },
+    placeName,
+  };
+
+  sessionStorage.setItem(
+    "pending-create",
+    JSON.stringify(pending)
+  );
+};
+
+const isDisabled = mutation.isPending || isSubmitting || isRestoring;
 
 const onSubmit = (data: CreateSchema) => {
   console.log("submit data:", data);
@@ -195,7 +277,7 @@ const onSubmit = (data: CreateSchema) => {
           )}
         />
         <Button type="button" variant="Text" size="Small" onClick={() => setOpen(true)}>+ 新しい場所</Button>
-        <CreatePlaceForm open={open} onOpenChange={setOpen} onCreated={handleCreated}/>
+        <CreatePlaceForm open={open} onOpenChange={setOpen} onCreated={handleCreated} onBeforeLogin={handleBeforeLogin}/>
       </div>
       <div className="w-full flex justify-between items-center">
           <IconLabel label="日付と時間" iconName="calendar_clock" htmlFor="date" helperText="日付と時間を残す場合はONにしてください"/>
