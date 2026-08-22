@@ -10,7 +10,7 @@ import { createColor } from "@/components/create/PaletteForm/action";
 import { editColor } from "@/components/mypage/edit/editAction";
 import { Dropdown } from "@/components/ui/Dropdown";
 import { Button } from "@/components/ui/Button";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation"
 import { Place } from "@/components/create/CreatePlaceForm";
 import { CreatePlaceForm } from "@/components/create/CreatePlaceForm";
@@ -73,6 +73,7 @@ export function PaletteForm({ mode, initialPalette }: PaletteFormProps) {
   })); 
 
 const router = useRouter();
+const restoreStartedRef = useRef(false);
 const [isRestoring, setIsRestoring] = useState(false);
 const queryClient = useQueryClient();
 const createPalette = useAtomValue(createPaletteAtom);
@@ -83,6 +84,10 @@ const colors = mode === "create" ? createPalette.colors : initialPalette?.colors
 const ShapeComponent = shapeMap[shape];
 
 useEffect(() => {
+  if (restoreStartedRef.current) {
+    return;
+  }
+  restoreStartedRef.current = true;
   const saved = sessionStorage.getItem("pending-create");
 
   if (!saved) {
@@ -120,8 +125,12 @@ useEffect(() => {
             shouldValidate: true,
             shouldDirty: true,
           });
-        } else if (result.message === "その場所は既に登録されています") {
-          
+        } else if (result.message === "その場所は既に登録されています" && result.place) {
+          // 既存Placeを使用
+          setValue("placeId", result.place.id, {
+            shouldValidate: true,
+            shouldDirty: true,
+          });
         } else {
           console.error(
             "場所の復元に失敗しました:",
@@ -252,9 +261,10 @@ const onSubmit = (data: CreateSchema) => {
         <IconLabel label="色彩" iconName="palette" htmlFor="colorData"/>
         <div className="flex justify-center items-center mx-auto w-full min-h-62 py-6 rounded-default bg-background-secondary">
         {isRestoring ? (
-          <div className="text-red-500 text-xl font-bold">
-            RESTORING...
-          </div>
+            <Spinner
+              size={24}
+              color="var(--color-border-disabled)"
+            />
           ) : ShapeComponent ? (
             <div className="w-50">
               <ShapeComponent colorData={colors} />

@@ -13,7 +13,8 @@ type CreatePlaceResult =
   | {
       success: false;
       message: string;
-      code?: string
+      code?: string;
+      place?: Place
     };
 
 export async function createPlace(text: string): Promise<CreatePlaceResult>{
@@ -56,6 +57,7 @@ export async function createPlace(text: string): Promise<CreatePlaceResult>{
     return {
       success: false,
       message: "その場所は既に登録されています",
+      place: exists
     };
   }
 
