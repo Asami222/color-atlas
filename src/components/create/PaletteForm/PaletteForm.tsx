@@ -252,10 +252,12 @@ const onSubmit = (data: CreateSchema) => {
         <IconLabel label="色彩" iconName="palette" htmlFor="colorData"/>
         <div className="flex justify-center items-center mx-auto w-full min-h-62 py-6 rounded-default bg-background-secondary">
         {isRestoring ? (
+          <div className="flex items-center justify-center">
             <Spinner
               size={24}
               color="var(--color-border-disabled)"
             />
+          </div>
           ) : ShapeComponent ? (
             <div className="w-50">
               <ShapeComponent colorData={colors} />
