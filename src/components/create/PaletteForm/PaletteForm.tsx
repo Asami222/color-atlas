@@ -26,6 +26,7 @@ import { ShapeButton, type ShapeType } from "@/components/ui/ShapeButton/ShapeBu
 import { CreatePaletteRequest, PaletteMutationResult, EditPaletteRequest, PaletteRequest } from "@/types/palette";
 import { PendingCreateData } from "./type";
 import { createPlace } from "@/components/create/CreatePlaceForm/action";
+import { Spinner } from "@/components/ui/Spinner";
 
 export type PaletteFormProps = {
   mode: "create" | "edit";
@@ -250,9 +251,15 @@ const onSubmit = (data: CreateSchema) => {
       <div className="flex flex-col gap-2">
         <IconLabel label="色彩" iconName="palette" htmlFor="colorData"/>
         <div className="flex justify-center items-end mx-auto w-full h-auto py-6 rounded-default bg-background-secondary">
-        {ShapeComponent && (
+        {ShapeComponent ? (
           <div className="w-50"><ShapeComponent colorData={colors} /></div>
-        )}
+        ):(
+          <Spinner
+            size={24}
+            color="var(--color-border-disabled)"
+          />
+        )
+        }
         </div>
         {mode === "edit" && (
           <div className="mx-auto mt-5"><ShapeButton selectedShape={selectedShape} onShapeChange={setSelectedShape}/></div>
