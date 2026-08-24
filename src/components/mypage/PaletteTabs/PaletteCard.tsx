@@ -13,7 +13,7 @@ export function PaletteCard({
 }: PaletteCardProps) {
    
     return (
-        <Link href={`/mypage/${palette.id}`}>
+        <Link href={`/mypage/${palette.id}`} className="hover:opacity-80">
         <div className="flex items-center justify-center aspect-square w-full">
             <div className={palette.shape === "chips" ? "w-[64%]" : "w-[80%]"}>
                 <PaletteShape

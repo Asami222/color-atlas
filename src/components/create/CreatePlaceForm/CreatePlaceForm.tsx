@@ -52,8 +52,6 @@ const {
       if (!result.success) {
         if (result.message === "ログインが必要です") {
           setLoginDialogOpen(true);
-          //sessionStorage.setItem("pending-place",value);
-          //router.push("/login?callbackUrl=/create");
           return;
       }
       setError("text", {
